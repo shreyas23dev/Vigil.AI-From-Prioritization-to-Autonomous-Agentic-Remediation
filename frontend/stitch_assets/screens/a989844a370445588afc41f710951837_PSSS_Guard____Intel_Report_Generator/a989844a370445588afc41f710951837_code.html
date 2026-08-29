@@ -1,0 +1,450 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Intel Report Generator | PSSS Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#171d1e",
+                    "on-tertiary-fixed": "#2a1700",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#e79400",
+                    "primary-container": "#06b6d4",
+                    "on-primary-container": "#00424f",
+                    "error-container": "#93000a",
+                    "on-background": "#dee3e6",
+                    "primary": "#4cd7f6",
+                    "primary-fixed-dim": "#4cd7f6",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#003640",
+                    "outline": "#869397",
+                    "on-secondary-fixed-variant": "#930013",
+                    "inverse-primary": "#00687a",
+                    "on-tertiary-container": "#563400",
+                    "surface-variant": "#303638",
+                    "outline-variant": "#3d494c",
+                    "on-secondary-fixed": "#410004",
+                    "on-error": "#690005",
+                    "on-secondary-container": "#ffaea8",
+                    "surface-dim": "#0e1416",
+                    "on-secondary": "#68000a",
+                    "inverse-on-surface": "#2b3133",
+                    "surface-bright": "#343a3c",
+                    "secondary-container": "#a40217",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "surface-container-lowest": "#090f11",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "tertiary-fixed": "#ffddb8",
+                    "secondary": "#ffb3ad",
+                    "on-tertiary": "#472a00",
+                    "surface-container-highest": "#303638",
+                    "surface-container": "#1b2122",
+                    "secondary-fixed-dim": "#ffb3ad",
+                    "secondary-fixed": "#ffdad7",
+                    "surface-container-high": "#252b2d",
+                    "on-surface-variant": "#bcc9cd",
+                    "on-surface": "#dee3e6",
+                    "surface": "#0e1416",
+                    "background": "#0e1416",
+                    "tertiary": "#ffb95f",
+                    "primary-fixed": "#acedff",
+                    "surface-tint": "#4cd7f6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "margin": "24px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Geist"],
+                    "technical-md": ["JetBrains Mono"],
+                    "headline-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "display": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "technical-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "technical-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 10px;
+      }
+      .mitre-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 2px;
+      }
+      .glass-effect {
+        backdrop-filter: blur(8px);
+        background: rgba(30, 41, 59, 0.7);
+      }
+      .watermark-text {
+        transform: rotate(-45deg);
+        user-select: none;
+        pointer-events: none;
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container font-body-md overflow-hidden">
+<!-- SideNavBar (from JSON) -->
+<aside class="fixed left-0 top-0 h-full w-[240px] flex flex-col z-40 bg-surface-container-low border-r border-outline-variant transition: all 0.2s ease-in-out">
+<div class="p-lg">
+<h1 class="text-headline-lg font-headline-lg text-primary">Vigil AI</h1>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant opacity-70">Model Status: Adaptive</p>
+</div>
+<nav class="flex-1 px-sm space-y-base mt-lg">
+<div class="flex items-center px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-md">radar</span>
+<span class="text-technical-md font-technical-md">Threat Engine</span>
+</div>
+<div class="flex items-center px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-md">list_alt</span>
+<span class="text-technical-md font-technical-md">Vulnerability Queue</span>
+</div>
+<div class="flex items-center px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-md">settings_input_component</span>
+<span class="text-technical-md font-technical-md">Model Settings</span>
+</div>
+<!-- ACTIVE: Intel Reports -->
+<div class="flex items-center px-md py-sm rounded-lg text-primary border-l-2 border-primary bg-surface-container-high cursor-pointer">
+<span class="material-symbols-outlined mr-md" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="text-technical-md font-technical-md">Intel Reports</span>
+</div>
+<div class="flex items-center px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-md">security</span>
+<span class="text-technical-md font-technical-md">System Audit</span>
+</div>
+</nav>
+<div class="p-lg mt-auto border-t border-outline-variant space-y-md">
+<div class="flex items-center text-on-surface-variant hover:text-on-surface cursor-pointer text-technical-sm font-technical-sm">
+<span class="material-symbols-outlined mr-sm text-lg">help_outline</span> Documentation
+            </div>
+<div class="flex items-center text-on-surface-variant hover:text-on-surface cursor-pointer text-technical-sm font-technical-sm">
+<span class="material-symbols-outlined mr-sm text-lg">contact_support</span> Support
+            </div>
+<button class="w-full py-sm bg-error-container text-on-error-container text-technical-sm font-bold uppercase tracking-wider rounded-lg hover:brightness-110 transition-all">
+                Emergency Lock
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[240px] h-screen flex flex-col relative">
+<!-- TopNavBar (from JSON) -->
+<header class="flex justify-between items-center w-full px-margin h-16 bg-surface-dim border-b border-outline-variant shrink-0">
+<div class="flex items-center">
+<span class="text-headline-md font-headline-md font-bold text-primary">Vigil AI // Adaptive Vulnerability Prioritization</span>
+</div>
+<div class="flex items-center space-x-md">
+<button class="px-md py-sm bg-surface-container-highest text-on-surface font-technical-sm rounded hover:bg-opacity-80 transition-colors">
+                    Export Report
+                </button>
+<button class="px-md py-sm bg-primary-container text-on-primary-container font-technical-sm rounded hover:brightness-110 active:scale-95 duration-100">
+                    Run Model Recalibration
+                </button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional system administrator profile avatar in a minimalist tech circle. Dark slate aesthetic with subtle cyan lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyjng2V3bTJpaVZHncBj5cjNz2pAXA8rOruRyzs23vGdlBd3k_vScCyNDhv5OdcE8gZTuOAe6kwSrh8Gem_zIxjp2LojE1ZrQQjLPx6rr1VcXENBnsgrCxLBf-Vv2Up8V3TUqTGan7SewY8x5aQLhRM2D_BtLb15HqudcfY0RK_jqme6UcR4QxgZLR1BhN8PKw1VzsttCB2kITRYTk4RvgaWY_rWhSDQPbTl2sG97K0YRLZ4bxjSg2r3eIlE_N6nvWb2reHosmnko">
+</div>
+</div>
+</header>
+<!-- Dynamic Content Body -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar (Config) -->
+<section class="w-[380px] bg-surface-container-lowest border-r border-outline-variant p-lg flex flex-col custom-scrollbar overflow-y-auto">
+<div class="flex items-center space-x-sm mb-lg">
+<span class="material-symbols-outlined text-primary">tune</span>
+<h2 class="text-headline-md font-headline-md">Report Parameters</h2>
+</div>
+<div class="space-y-xl">
+<!-- Report Title -->
+<div class="space-y-sm">
+<label class="text-label-caps text-on-surface-variant">Report Title</label>
+<input class="w-full bg-surface-dim border border-outline-variant rounded-lg px-md py-sm text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Monthly Threat &amp; Vulnerability Synthesis">
+</div>
+<!-- Date Range -->
+<div class="space-y-sm">
+<label class="text-label-caps text-on-surface-variant">Date Range Selection</label>
+<div class="grid grid-cols-2 gap-xs">
+<button class="py-xs text-technical-sm font-technical-sm border border-outline-variant rounded hover:bg-surface-container-highest">Last 24h</button>
+<button class="py-xs text-technical-sm font-technical-sm border border-outline-variant rounded hover:bg-surface-container-highest">Last 7d</button>
+<button class="py-xs text-technical-sm font-technical-sm bg-primary-container/20 border border-primary text-primary rounded">Last 30d</button>
+<button class="py-xs text-technical-sm font-technical-sm border border-outline-variant rounded hover:bg-surface-container-highest">Custom</button>
+</div>
+</div>
+<!-- Scope selection -->
+<div class="space-y-sm">
+<label class="text-label-caps text-on-surface-variant">Scanning Scope</label>
+<select class="w-full bg-surface-dim border border-outline-variant rounded-lg px-md py-sm text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>[All Assets]</option>
+<option>[Production Environment]</option>
+<option>[Cloud Infrastructure]</option>
+</select>
+</div>
+<!-- Layers to Include -->
+<div class="space-y-md">
+<label class="text-label-caps text-on-surface-variant">Intel Layers</label>
+<div class="space-y-sm">
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-outline-variant bg-surface-dim text-primary focus:ring-primary" type="checkbox">
+<span class="ml-md text-body-md text-on-surface-variant group-hover:text-on-surface">Active Adversary Campaigns</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-outline-variant bg-surface-dim text-primary focus:ring-primary" type="checkbox">
+<span class="ml-md text-body-md text-on-surface-variant group-hover:text-on-surface">MITRE ATT&amp;CK Coverage</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-outline-variant bg-surface-dim text-primary focus:ring-primary" type="checkbox">
+<span class="ml-md text-body-md text-on-surface-variant group-hover:text-on-surface">PSSS Priority Queue</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="rounded border-outline-variant bg-surface-dim text-primary focus:ring-primary" type="checkbox">
+<span class="ml-md text-body-md text-on-surface-variant group-hover:text-on-surface">Remediation Roadmap</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-outline-variant bg-surface-dim text-primary focus:ring-primary" type="checkbox">
+<span class="ml-md text-body-md text-on-surface-variant group-hover:text-on-surface">Executive Summary</span>
+</label>
+</div>
+</div>
+<!-- Export Format -->
+<div class="space-y-sm">
+<label class="text-label-caps text-on-surface-variant">Export Protocol</label>
+<div class="space-y-xs">
+<div class="flex items-center justify-between p-sm border border-primary/40 bg-primary-container/5 rounded-lg">
+<span class="text-technical-md text-primary">PDF (High Fidelity)</span>
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-sm border border-outline-variant hover:border-outline rounded-lg cursor-pointer transition-colors">
+<span class="text-technical-md text-on-surface-variant">JSON (Raw Data)</span>
+</div>
+<div class="flex items-center justify-between p-sm border border-outline-variant hover:border-outline rounded-lg cursor-pointer transition-colors">
+<span class="text-technical-md text-on-surface-variant">CSV (Spreadsheet)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Preview Area -->
+<section class="flex-1 bg-surface p-xl relative overflow-hidden custom-scrollbar overflow-y-auto">
+<div class="max-w-4xl mx-auto space-y-lg">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-md font-headline-md text-on-surface-variant">Report Draft Preview</h3>
+<div class="flex space-x-sm">
+<span class="px-sm py-xs bg-surface-container-high rounded text-technical-sm border border-outline-variant">Zoom: 100%</span>
+<span class="px-sm py-xs bg-surface-container-high rounded text-technical-sm border border-outline-variant">Pages: 1 of 4</span>
+</div>
+</div>
+<!-- Document Card -->
+<div class="relative bg-surface-container-low border border-outline-variant min-h-[1000px] shadow-2xl p-xl flex flex-col font-body-md overflow-hidden">
+<!-- Watermark -->
+<div class="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none">
+<span class="watermark-text text-[80px] font-bold whitespace-nowrap">CONFIDENTIAL // INTERNAL</span>
+</div>
+<!-- Report Header -->
+<div class="flex justify-between items-start border-b border-outline-variant pb-lg mb-xl">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-primary tracking-tight">VIGIL AI INTEL REPORT</h1>
+<p class="text-technical-md font-technical-md text-on-surface-variant mt-xs">Classification: SECRET // NOFORN</p>
+</div>
+<div class="text-right text-technical-sm font-technical-sm space-y-xs">
+<p class="">REPORT ID: <span class="text-primary">PG-INTEL-2023-11-04</span></p>
+<p class="">GENERATED: 2023-11-15 14:30:01 UTC</p>
+<p class="">SYSTEM: A-VULN-PRIO v4.2</p>
+</div>
+</div>
+<!-- Executive Summary Section -->
+<section class="mb-xl">
+<h4 class="text-label-caps text-primary mb-md border-b border-primary/20 pb-xs">1.0 Executive Summary</h4>
+<div class="text-body-md text-on-surface leading-relaxed">
+<p class="">Current threat telemetry indicates a heightened baseline of activity targeting <strong>Cloud Infrastructure</strong> assets. The Adaptive Vulnerability Prioritization model has identified 14 critical-path vulnerabilities that overlap with observed adversary campaigns (APT-41, Lazarus Group). While standard CVSS scores suggest a general maintenance window, PSSS Guard recommends <strong>Immediate Remediation</strong> due to the exploitation maturity of these vectors. Cumulative risk score for the Production Environment has reached 8.4/10.0.</p>
+</div>
+</section>
+<!-- Visual Grid Layout -->
+<div class="grid grid-cols-2 gap-lg mb-xl">
+<!-- MITRE Heatmap Widget -->
+<div class="bg-surface-dim border border-outline-variant p-md">
+<div class="flex justify-between items-center mb-md">
+<h5 class="text-label-caps text-on-surface-variant">MITRE ATT&amp;CK Coverage</h5>
+<span class="text-[10px] text-error font-technical-sm">High Risk</span>
+</div>
+<div class="mitre-grid">
+<div class="h-4 bg-error/40 border border-error/50"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/60 border border-error/70"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/20"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/40 border border-error/50"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/80 border border-error"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<!-- Repeat for grid visual -->
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/40"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/30"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-error/50"></div>
+<div class="h-4 bg-error/60"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+<div class="h-4 bg-surface-container-high"></div>
+</div>
+<p class="mt-sm text-technical-sm text-on-surface-variant opacity-60">Techniques detected: T1059, T1190, T1078</p>
+</div>
+<!-- Priority Distribution Chart (PSSS vs CVSS) -->
+<div class="bg-surface-dim border border-outline-variant p-md flex flex-col">
+<h5 class="text-label-caps text-on-surface-variant mb-md">Priority Distribution (PSSS vs CVSS)</h5>
+<div class="flex-1 flex items-end justify-between space-x-sm px-md pb-xs">
+<div class="w-full space-y-1">
+<div class="h-24 bg-primary/20 border-t-2 border-primary relative">
+<div class="absolute -top-6 left-0 text-[10px] text-primary">PSSS</div>
+</div>
+<div class="h-16 bg-outline-variant/20 border-t-2 border-outline-variant relative">
+<div class="absolute -bottom-6 left-0 text-[10px] text-on-surface-variant">CVSS</div>
+</div>
+</div>
+<div class="w-full space-y-1">
+<div class="h-12 bg-primary/20 border-t-2 border-primary"></div>
+<div class="h-28 bg-outline-variant/20 border-t-2 border-outline-variant"></div>
+</div>
+<div class="w-full space-y-1">
+<div class="h-32 bg-primary/20 border-t-2 border-primary"></div>
+<div class="h-8 bg-outline-variant/20 border-t-2 border-outline-variant"></div>
+</div>
+</div>
+<p class="mt-lg text-technical-sm text-on-surface-variant opacity-60">Divergence: +42% Criticality Delta</p>
+</div>
+</div>
+<!-- Top 5 Vulnerabilities -->
+<section>
+<h4 class="text-label-caps text-primary mb-md border-b border-primary/20 pb-xs">2.0 Top 5 Remediation Priorities</h4>
+<div class="space-y-sm">
+<div class="grid grid-cols-[80px_1fr_100px] items-center py-sm px-md border-l-2 border-error bg-error-container/5">
+<span class="text-technical-sm text-error font-bold">PSSS 9.8</span>
+<span class="text-body-md">CVE-2023-44487: HTTP/2 Rapid Reset Attack</span>
+<span class="text-technical-sm text-right text-on-surface-variant">Edge Nodes</span>
+</div>
+<div class="grid grid-cols-[80px_1fr_100px] items-center py-sm px-md border-l-2 border-error/70 bg-surface-container">
+<span class="text-technical-sm text-error/70 font-bold">PSSS 9.4</span>
+<span class="text-body-md">CVE-2023-4911: Looney Tunables (glibc)</span>
+<span class="text-technical-sm text-right text-on-surface-variant">Core OS</span>
+</div>
+<div class="grid grid-cols-[80px_1fr_100px] items-center py-sm px-md border-l-2 border-tertiary bg-surface-container">
+<span class="text-technical-sm text-tertiary font-bold">PSSS 8.9</span>
+<span class="text-body-md">Unauthenticated RCE in VPN Gateway Interface</span>
+<span class="text-technical-sm text-right text-on-surface-variant">Network</span>
+</div>
+<div class="grid grid-cols-[80px_1fr_100px] items-center py-sm px-md border-l-2 border-tertiary/70 bg-surface-container">
+<span class="text-technical-sm text-tertiary/70 font-bold">PSSS 8.2</span>
+<span class="text-body-md">S3 Bucket Permissive Policy: Log Storage</span>
+<span class="text-technical-sm text-right text-on-surface-variant">S3 Cloud</span>
+</div>
+<div class="grid grid-cols-[80px_1fr_100px] items-center py-sm px-md border-l-2 border-tertiary/50 bg-surface-container">
+<span class="text-technical-sm text-tertiary/50 font-bold">PSSS 7.8</span>
+<span class="text-body-md">Kubernetes Secrets Exposure in CI/CD Artifacts</span>
+<span class="text-technical-sm text-right text-on-surface-variant">DevOps</span>
+</div>
+</div>
+</section>
+<!-- Page Footer -->
+<div class="mt-auto pt-lg border-t border-outline-variant flex justify-between text-technical-sm opacity-40">
+<span class="">Vigil AI Automatic Intel System // v4.2.0-Adaptive</span>
+<span class="">Confidential - Proprietary Information</span>
+<span class="">Page 1 of 4</span>
+</div>
+</div>
+<div class="h-margin"></div>
+</div>
+</section>
+</div>
+<!-- Floating Bottom Action Bar -->
+<div class="absolute bottom-margin left-[240px] right-margin flex justify-center z-50 pointer-events-none">
+<div class="glass-effect border border-outline-variant rounded-full px-lg py-md shadow-2xl flex items-center space-x-lg pointer-events-auto">
+<div class="flex items-center space-x-md border-r border-outline-variant pr-lg">
+<button class="flex items-center space-x-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-md">refresh</span>
+<span class="text-technical-md">Generate Live Preview</span>
+</button>
+<button class="flex items-center space-x-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-md">event_repeat</span>
+<span class="text-technical-md">Schedule Recurring Report</span>
+</button>
+</div>
+<button class="flex items-center space-x-md bg-primary text-on-primary-container px-xl py-sm rounded-full font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">ios_share</span>
+<span class="text-technical-md">Finalize &amp; Export</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulating loading state for "Generate Live Preview"
+        const previewBtn = document.querySelector('button:has(span:contains("Generate Live Preview"))');
+        if(previewBtn) {
+            previewBtn.addEventListener('click', () => {
+                previewBtn.querySelector('span.material-symbols-outlined').classList.add('animate-spin');
+                setTimeout(() => {
+                    previewBtn.querySelector('span.material-symbols-outlined').classList.remove('animate-spin');
+                }, 1000);
+            });
+        }
+    </script>
+
+
+</body></html>

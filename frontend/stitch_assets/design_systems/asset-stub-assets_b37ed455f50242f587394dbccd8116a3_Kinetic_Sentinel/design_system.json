@@ -1,0 +1,122 @@
+{
+  "name": "assets/b37ed455f50242f587394dbccd8116a3",
+  "designSystem": {
+    "displayName": "Kinetic Sentinel",
+    "styleGuidelines": "## Brand & Style\n\nThe design system is engineered for high-stakes environments where rapid data processing and threat detection are paramount. The personality is hyper-technical, authoritative, and vigilant. It targets cybersecurity professionals and system architects who require clarity under pressure.\n\nThe style is a fusion of **Corporate Modernism** and **Tactile Glassmorphism**. It utilizes a \"Command Center\" aesthetic\u2014dark, multi-layered surfaces that recede to let vibrant, kinetic accents pull the user's focus toward critical alerts and streaming data. The interface feels like a precision instrument: cold, sharp, and intensely responsive.\n\n## Layout & Spacing\n\nThe layout philosophy is a **Fixed-Fluid Hybrid**. The main content container is capped at 1440px to ensure data density doesn't become overwhelming on ultra-wide monitors, while the inner grid remains fluid.\n\n- **The 4px Grid:** All spacing must be a multiple of 4px. Use 8px and 16px for internal component padding, and 24px or 32px for section separation.\n- **Responsive Behavior:** \n  - **Desktop:** 12-column grid with 24px gutters.\n  - **Tablet:** 8-column grid with 16px gutters.\n  - **Mobile:** 4-column grid with 16px margins.\n- **Density:** High density is encouraged for data tables and dashboards. Use compact vertical padding (8px) for list items to maximize information on a single screen.\n\n## Elevation & Depth\n\nDepth is achieved through **Tonal layering** and **Backdrop Blurs** rather than traditional shadows.\n\n- **Base Layer:** `#020617` - The canvas.\n- **Level 1 (Cards/Sidebar):** `#0f172a` with a 1px border of `rgba(255,255,255,0.05)`.\n- **Level 2 (Modals/Popovers):** `#1e293b` with a 20px backdrop blur (Glassmorphism) and a subtle 1px primary cyan inner-glow on the top edge.\n- **Outlines:** Avoid heavy shadows. Use \"Ghost Borders\"\u2014low-opacity (10-15%) strokes in the primary color\u2014to define interactive boundaries. This maintains a flat, technical appearance while providing clear separation.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Solid Cyan (#06b6d4) with black text for maximum contrast.\n  - *Secondary:* Transparent with a 1px Cyan border and Cyan text.\n  - *Ghost:* No background, Cyan text, appears only on hover with a subtle `#0f172a` fill.\n- **Inputs:** Dark background (`#020617`), 1px border (`#1e293b`). On focus, the border glows Cyan with a 2px outer-blur.\n- **Chips/Badges:** Monospaced text (JetBrains Mono). Use high-vibrance semantic colors for backgrounds at 15% opacity with 100% opacity text for a \"heads-up display\" look.\n- **Data Lists:** Use alternating row stripes (Zebra striping) with `#0f172a` and `#020617`. Highlight active rows with a Cyan left-border (3px wide).\n- **Cards:** No shadows. Use a subtle 1px border. Title areas should have a slightly darker header background to create an \"Instrument Panel\" feel.",
+    "theme": {
+      "colorMode": "DARK",
+      "font": "GEIST",
+      "roundness": "ROUND_FOUR",
+      "customColor": "#06b6d4",
+      "headlineFont": "GEIST",
+      "bodyFont": "GEIST",
+      "labelFont": "JETBRAINS_MONO",
+      "namedColors": {
+        "background": "#0e1416",
+        "error": "#ffb4ab",
+        "error_container": "#93000a",
+        "inverse_on_surface": "#2b3133",
+        "inverse_primary": "#00687a",
+        "inverse_surface": "#dee3e6",
+        "on_background": "#dee3e6",
+        "on_error": "#690005",
+        "on_error_container": "#ffdad6",
+        "on_primary": "#003640",
+        "on_primary_container": "#00424f",
+        "on_primary_fixed": "#001f26",
+        "on_primary_fixed_variant": "#004e5c",
+        "on_secondary": "#3c0091",
+        "on_secondary_container": "#c4abff",
+        "on_secondary_fixed": "#23005c",
+        "on_secondary_fixed_variant": "#5516be",
+        "on_surface": "#dee3e6",
+        "on_surface_variant": "#bcc9cd",
+        "on_tertiary": "#4b2800",
+        "on_tertiary_container": "#5b3200",
+        "on_tertiary_fixed": "#2d1600",
+        "on_tertiary_fixed_variant": "#6a3b00",
+        "outline": "#869397",
+        "outline_variant": "#3d494c",
+        "primary": "#4cd7f6",
+        "primary_container": "#06b6d4",
+        "primary_fixed": "#acedff",
+        "primary_fixed_dim": "#4cd7f6",
+        "secondary": "#d0bcff",
+        "secondary_container": "#571bc1",
+        "secondary_fixed": "#e9ddff",
+        "secondary_fixed_dim": "#d0bcff",
+        "surface": "#0e1416",
+        "surface_bright": "#343a3c",
+        "surface_container": "#1b2122",
+        "surface_container_high": "#252b2d",
+        "surface_container_highest": "#303638",
+        "surface_container_low": "#171d1e",
+        "surface_container_lowest": "#090f11",
+        "surface_dim": "#0e1416",
+        "surface_tint": "#4cd7f6",
+        "surface_variant": "#303638",
+        "tertiary": "#ffb873",
+        "tertiary_container": "#e89337",
+        "tertiary_fixed": "#ffdcbf",
+        "tertiary_fixed_dim": "#ffb873"
+      },
+      "designMd": "---\nname: Kinetic Sentinel\ncolors:\n  surface: '#0e1416'\n  surface-dim: '#0e1416'\n  surface-bright: '#343a3c'\n  surface-container-lowest: '#090f11'\n  surface-container-low: '#171d1e'\n  surface-container: '#1b2122'\n  surface-container-high: '#252b2d'\n  surface-container-highest: '#303638'\n  on-surface: '#dee3e6'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#dee3e6'\n  inverse-on-surface: '#2b3133'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#d0bcff'\n  on-secondary: '#3c0091'\n  secondary-container: '#571bc1'\n  on-secondary-container: '#c4abff'\n  tertiary: '#ffb873'\n  on-tertiary: '#4b2800'\n  tertiary-container: '#e89337'\n  on-tertiary-container: '#5b3200'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d0bcff'\n  on-secondary-fixed: '#23005c'\n  on-secondary-fixed-variant: '#5516be'\n  tertiary-fixed: '#ffdcbf'\n  tertiary-fixed-dim: '#ffb873'\n  on-tertiary-fixed: '#2d1600'\n  on-tertiary-fixed-variant: '#6a3b00'\n  background: '#0e1416'\n  on-background: '#dee3e6'\n  surface-variant: '#303638'\ntypography:\n  display-lg:\n    fontFamily: Geist\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-md:\n    fontFamily: Geist\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n    letterSpacing: 0.05em\n  code-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '400'\n    lineHeight: 16px\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 24px\n  margin-mobile: 16px\n  margin-desktop: 48px\n  container-max: 1440px\n---\n\n## Brand & Style\n\nThe design system is engineered for high-stakes environments where rapid data processing and threat detection are paramount. The personality is hyper-technical, authoritative, and vigilant. It targets cybersecurity professionals and system architects who require clarity under pressure.\n\nThe style is a fusion of **Corporate Modernism** and **Tactile Glassmorphism**. It utilizes a \"Command Center\" aesthetic\u2014dark, multi-layered surfaces that recede to let vibrant, kinetic accents pull the user's focus toward critical alerts and streaming data. The interface feels like a precision instrument: cold, sharp, and intensely responsive.\n\n## Colors\n\nThe palette is optimized for OLED and high-resolution displays, utilizing a deep-space foundation to maximize the \"pop\" of the primary cyan.\n\n- **Primary Accent:** The cyan (#06b6d4) is the \"Active State\" color. It should be used for interactive elements, focus rings, and primary data paths.\n- **Surface Layering:** We move from a base of `#020617` (Deep Void) for background shells to `#0f172a` (Command Navy) for cards and containers. Higher elevation levels should use subtle shifts in lightness rather than standard gray scales to maintain the \"Sentinel\" blue-tinted darkness.\n- **Semantic Punch:** Success, Warning, and Error colors are pushed to high-saturation values to ensure they break through the dark background instantly. Use these colors for status indicators, \"Kill Switch\" buttons, and critical telemetry.\n\n## Typography\n\nThis design system uses a dual-font strategy to balance readability with a technical aesthetic.\n\n- **Primary Typeface:** **Geist** provides a clean, neutral, and highly legible foundation for the main interface. Its geometric precision fits the \"high-tech\" narrative while remaining professional.\n- **Secondary Typeface:** **JetBrains Mono** is used for all labels, data points, and terminal outputs. The monospaced nature emphasizes the data-driven, systematic soul of the product.\n- **Scale:** Use tight letter spacing on larger headlines to create a \"locked-in\" feel. Use generous tracking on labels and code snippets to ensure legibility during high-speed scanning.\n\n## Layout & Spacing\n\nThe layout philosophy is a **Fixed-Fluid Hybrid**. The main content container is capped at 1440px to ensure data density doesn't become overwhelming on ultra-wide monitors, while the inner grid remains fluid.\n\n- **The 4px Grid:** All spacing must be a multiple of 4px. Use 8px and 16px for internal component padding, and 24px or 32px for section separation.\n- **Responsive Behavior:** \n  - **Desktop:** 12-column grid with 24px gutters.\n  - **Tablet:** 8-column grid with 16px gutters.\n  - **Mobile:** 4-column grid with 16px margins.\n- **Density:** High density is encouraged for data tables and dashboards. Use compact vertical padding (8px) for list items to maximize information on a single screen.\n\n## Elevation & Depth\n\nDepth is achieved through **Tonal layering** and **Backdrop Blurs** rather than traditional shadows.\n\n- **Base Layer:** `#020617` - The canvas.\n- **Level 1 (Cards/Sidebar):** `#0f172a` with a 1px border of `rgba(255,255,255,0.05)`.\n- **Level 2 (Modals/Popovers):** `#1e293b` with a 20px backdrop blur (Glassmorphism) and a subtle 1px primary cyan inner-glow on the top edge.\n- **Outlines:** Avoid heavy shadows. Use \"Ghost Borders\"\u2014low-opacity (10-15%) strokes in the primary color\u2014to define interactive boundaries. This maintains a flat, technical appearance while providing clear separation.\n\n## Shapes\n\nThe shape language is **Soft-Technical**. We avoid fully sharp corners to prevent a \"dated\" look, but maintain a low radius to feel precise and engineered.\n\n- **Standard Elements:** Use `0.25rem` (4px) for buttons, inputs, and small chips.\n- **Containers:** Use `0.5rem` (8px) for cards and main dashboard widgets.\n- **Status Indicators:** Use `full` (pill) for status badges to distinguish them from structural UI elements.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Solid Cyan (#06b6d4) with black text for maximum contrast.\n  - *Secondary:* Transparent with a 1px Cyan border and Cyan text.\n  - *Ghost:* No background, Cyan text, appears only on hover with a subtle `#0f172a` fill.\n- **Inputs:** Dark background (`#020617`), 1px border (`#1e293b`). On focus, the border glows Cyan with a 2px outer-blur.\n- **Chips/Badges:** Monospaced text (JetBrains Mono). Use high-vibrance semantic colors for backgrounds at 15% opacity with 100% opacity text for a \"heads-up display\" look.\n- **Data Lists:** Use alternating row stripes (Zebra striping) with `#0f172a` and `#020617`. Highlight active rows with a Cyan left-border (3px wide).\n- **Cards:** No shadows. Use a subtle 1px border. Title areas should have a slightly darker header background to create an \"Instrument Panel\" feel.",
+      "colorVariant": "FIDELITY",
+      "overridePrimaryColor": "#06b6d4",
+      "overrideSecondaryColor": "#8b5cf6",
+      "spacingScale": 2,
+      "typography": {
+        "body-md": {
+          "fontFamily": "Geist",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px"
+        },
+        "code-sm": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "16px"
+        },
+        "display-lg": {
+          "fontFamily": "Geist",
+          "fontSize": "48px",
+          "fontWeight": "700",
+          "lineHeight": "56px",
+          "letterSpacing": "-0.02em"
+        },
+        "headline-lg": {
+          "fontFamily": "Geist",
+          "fontSize": "32px",
+          "fontWeight": "600",
+          "lineHeight": "40px",
+          "letterSpacing": "-0.01em"
+        },
+        "headline-lg-mobile": {
+          "fontFamily": "Geist",
+          "fontSize": "24px",
+          "fontWeight": "600",
+          "lineHeight": "32px"
+        },
+        "label-md": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "20px",
+          "letterSpacing": "0.05em"
+        }
+      },
+      "spacing": {
+        "container-max": "1440px",
+        "gutter": "24px",
+        "margin-desktop": "48px",
+        "margin-mobile": "16px",
+        "unit": "4px"
+      },
+      "headlineFontFamily": "Geist",
+      "bodyFontFamily": "Geist",
+      "labelFontFamily": "Jetbrains Mono"
+    }
+  },
+  "version": "1"
+}

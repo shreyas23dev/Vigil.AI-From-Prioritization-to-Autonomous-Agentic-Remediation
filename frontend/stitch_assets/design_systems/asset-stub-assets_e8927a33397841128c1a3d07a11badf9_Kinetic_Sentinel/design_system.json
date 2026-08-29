@@ -1,0 +1,138 @@
+{
+  "name": "assets/e8927a33397841128c1a3d07a11badf9",
+  "designSystem": {
+    "displayName": "Kinetic Sentinel",
+    "styleGuidelines": "## Brand & Style\nThe design system is engineered for high-stakes cybersecurity environments where cognitive load management and rapid data synthesis are critical. The brand personality is clinical, vigilant, and authoritative, evoking a sense of \"active monitoring\" and technical precision. \n\nThe aesthetic leverages a **Modern Corporate Dark Mode** blended with **Minimalist Technical** influences. It avoids unnecessary ornamentation, focusing instead on data density and clear visual hierarchies. The interface utilizes high-contrast accents against deep slate foundations to ensure that critical threats are immediately distinguishable from baseline system noise. The emotional response is one of calm control amidst complex, fast-moving data streams.\n\n## Layout & Spacing\nThis design system employs a strict **4px/8px incremental grid** to achieve high data density without sacrificing clarity. \n- **Grid System:** A 12-column fluid grid is used for dashboard layouts. On desktop, sidebars are fixed at 240px, while the main content area expands.\n- **Density:** Padding within cards and tables is kept tight (12px or 16px) to allow more information to be visible above the fold. \n- **Responsive Behavior:** On tablet, the grid shifts to 6 columns. On mobile, elements stack into a single column with horizontal margins reduced to 16px. \n- **Dividers:** Use 1px borders (#334155) instead of large gaps to separate data points, maintaining a compact footprint.\n\n## Elevation & Depth\nIn this dark-themed system, depth is communicated through **Tonal Layering** and **Subtle Glows** rather than traditional drop shadows.\n- **Level 0 (Background):** #0F172A - The lowest plane.\n- **Level 1 (Cards/Panels):** #1E293B - Used for primary content containers. These should have a subtle 1px border (#334155) to define edges.\n- **Level 2 (Modals/Popovers):** #334155 - Elevated surfaces that sit above the main UI.\n- **Luminous Effects:** For critical alerts (Red), a soft 8px outer glow (15% opacity) is applied to progress bars and badges to draw the eye immediately. Interactive elements like buttons use a subtle Cyan inner-glow on hover to indicate \"active\" states.\n\n## Components\n- **Buttons:** Primary buttons use a solid Cyan (#06B6D4) fill with Slate 950 text. Secondary buttons use a Slate 800 ghost style with 1px borders.\n- **Severity Badges:** Compact labels with JetBrains Mono text. Use low-opacity fills (15%) of the accent color with a solid 1px border of the same color for high visibility.\n- **Data Tables:** Row headers in Slate 50. Alternate row striping is not used; instead, use 1px bottom borders. Critical rows should have a 2px Crimson left-border highlight.\n- **Progress Bars:** Thin 4px tracks. The \"fill\" should utilize a slight gradient of the accent color. Critical bars (Red) include the soft glow effect mentioned in Elevation.\n- **Radar Charts:** Use semi-transparent Cyan strokes with Slate 400 grid lines. Vertices for high-risk nodes should be marked with Amber or Red points.\n- **Input Fields:** Dark fills (#0F172A) with a Slate 700 border. Focus state changes border to Cyan with a 1px glow.",
+    "theme": {
+      "colorMode": "DARK",
+      "font": "GEIST",
+      "roundness": "ROUND_FOUR",
+      "customColor": "#06b6d4",
+      "headlineFont": "GEIST",
+      "bodyFont": "INTER",
+      "labelFont": "JETBRAINS_MONO",
+      "namedColors": {
+        "background": "#0e1416",
+        "error": "#ffb4ab",
+        "error_container": "#93000a",
+        "inverse_on_surface": "#2b3133",
+        "inverse_primary": "#00687a",
+        "inverse_surface": "#dee3e6",
+        "on_background": "#dee3e6",
+        "on_error": "#690005",
+        "on_error_container": "#ffdad6",
+        "on_primary": "#003640",
+        "on_primary_container": "#00424f",
+        "on_primary_fixed": "#001f26",
+        "on_primary_fixed_variant": "#004e5c",
+        "on_secondary": "#68000a",
+        "on_secondary_container": "#ffaea8",
+        "on_secondary_fixed": "#410004",
+        "on_secondary_fixed_variant": "#930013",
+        "on_surface": "#dee3e6",
+        "on_surface_variant": "#bcc9cd",
+        "on_tertiary": "#472a00",
+        "on_tertiary_container": "#563400",
+        "on_tertiary_fixed": "#2a1700",
+        "on_tertiary_fixed_variant": "#653e00",
+        "outline": "#869397",
+        "outline_variant": "#3d494c",
+        "primary": "#4cd7f6",
+        "primary_container": "#06b6d4",
+        "primary_fixed": "#acedff",
+        "primary_fixed_dim": "#4cd7f6",
+        "secondary": "#ffb3ad",
+        "secondary_container": "#a40217",
+        "secondary_fixed": "#ffdad7",
+        "secondary_fixed_dim": "#ffb3ad",
+        "surface": "#0e1416",
+        "surface_bright": "#343a3c",
+        "surface_container": "#1b2122",
+        "surface_container_high": "#252b2d",
+        "surface_container_highest": "#303638",
+        "surface_container_low": "#171d1e",
+        "surface_container_lowest": "#090f11",
+        "surface_dim": "#0e1416",
+        "surface_tint": "#4cd7f6",
+        "surface_variant": "#303638",
+        "tertiary": "#ffb95f",
+        "tertiary_container": "#e79400",
+        "tertiary_fixed": "#ffddb8",
+        "tertiary_fixed_dim": "#ffb95f"
+      },
+      "designMd": "---\nname: Kinetic Sentinel\ncolors:\n  surface: '#0e1416'\n  surface-dim: '#0e1416'\n  surface-bright: '#343a3c'\n  surface-container-lowest: '#090f11'\n  surface-container-low: '#171d1e'\n  surface-container: '#1b2122'\n  surface-container-high: '#252b2d'\n  surface-container-highest: '#303638'\n  on-surface: '#dee3e6'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#dee3e6'\n  inverse-on-surface: '#2b3133'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#ffb3ad'\n  on-secondary: '#68000a'\n  secondary-container: '#a40217'\n  on-secondary-container: '#ffaea8'\n  tertiary: '#ffb95f'\n  on-tertiary: '#472a00'\n  tertiary-container: '#e79400'\n  on-tertiary-container: '#563400'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#ffdad7'\n  secondary-fixed-dim: '#ffb3ad'\n  on-secondary-fixed: '#410004'\n  on-secondary-fixed-variant: '#930013'\n  tertiary-fixed: '#ffddb8'\n  tertiary-fixed-dim: '#ffb95f'\n  on-tertiary-fixed: '#2a1700'\n  on-tertiary-fixed-variant: '#653e00'\n  background: '#0e1416'\n  on-background: '#dee3e6'\n  surface-variant: '#303638'\ntypography:\n  display:\n    fontFamily: Geist\n    fontSize: 36px\n    fontWeight: '700'\n    lineHeight: 44px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n  headline-md:\n    fontFamily: Geist\n    fontSize: 20px\n    fontWeight: '600'\n    lineHeight: 28px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  technical-md:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n    letterSpacing: 0.01em\n  technical-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n  label-caps:\n    fontFamily: Inter\n    fontSize: 11px\n    fontWeight: '700'\n    lineHeight: 16px\n    letterSpacing: 0.05em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  base: 4px\n  xs: 4px\n  sm: 8px\n  md: 16px\n  lg: 24px\n  xl: 32px\n  gutter: 16px\n  margin: 24px\n---\n\n## Brand & Style\nThe design system is engineered for high-stakes cybersecurity environments where cognitive load management and rapid data synthesis are critical. The brand personality is clinical, vigilant, and authoritative, evoking a sense of \"active monitoring\" and technical precision. \n\nThe aesthetic leverages a **Modern Corporate Dark Mode** blended with **Minimalist Technical** influences. It avoids unnecessary ornamentation, focusing instead on data density and clear visual hierarchies. The interface utilizes high-contrast accents against deep slate foundations to ensure that critical threats are immediately distinguishable from baseline system noise. The emotional response is one of calm control amidst complex, fast-moving data streams.\n\n## Colors\nThis design system utilizes a tiered dark-mode palette to define depth and urgency.\n- **Base Foundations:** The background uses a deep slate (#0F172A) to reduce eye strain, while surfaces use a slightly lighter navy (#1E293B) to create structural containment.\n- **Functional Accents:** Electric Cyan (#06B6D4) is the primary interactive color, reserved for system actions and healthy metrics.\n- **Semantic Urgency:** Crimson Red (#EF4444) is strictly reserved for critical threat scores (>0.8) and destructive actions. Amber Orange (#F59E0B) indicates warning states and high-risk vectors (0.5 - 0.8).\n- **Typography:** Headers use Slate 50 for maximum legibility; secondary metadata uses Slate 400 to maintain a clear information hierarchy.\n\n## Typography\nThe typography strategy differentiates between \"Interface Narrative\" and \"Data Reality.\" \n- **Geist** is used for high-level headings to provide a modern, sharp technical feel.\n- **Inter** handles standard UI body copy and inputs, chosen for its exceptional readability in dense layouts.\n- **JetBrains Mono** is the functional workhorse for all technical strings, including CVE IDs, IP addresses, hash values, and threat scores. This monospaced font ensures that character-specific details are never misread.\n- Large displays scale down by 20% for mobile devices, while technical labels remain fixed at 12px/14px to preserve data integrity.\n\n## Layout & Spacing\nThis design system employs a strict **4px/8px incremental grid** to achieve high data density without sacrificing clarity. \n- **Grid System:** A 12-column fluid grid is used for dashboard layouts. On desktop, sidebars are fixed at 240px, while the main content area expands.\n- **Density:** Padding within cards and tables is kept tight (12px or 16px) to allow more information to be visible above the fold. \n- **Responsive Behavior:** On tablet, the grid shifts to 6 columns. On mobile, elements stack into a single column with horizontal margins reduced to 16px. \n- **Dividers:** Use 1px borders (#334155) instead of large gaps to separate data points, maintaining a compact footprint.\n\n## Elevation & Depth\nIn this dark-themed system, depth is communicated through **Tonal Layering** and **Subtle Glows** rather than traditional drop shadows.\n- **Level 0 (Background):** #0F172A - The lowest plane.\n- **Level 1 (Cards/Panels):** #1E293B - Used for primary content containers. These should have a subtle 1px border (#334155) to define edges.\n- **Level 2 (Modals/Popovers):** #334155 - Elevated surfaces that sit above the main UI.\n- **Luminous Effects:** For critical alerts (Red), a soft 8px outer glow (15% opacity) is applied to progress bars and badges to draw the eye immediately. Interactive elements like buttons use a subtle Cyan inner-glow on hover to indicate \"active\" states.\n\n## Shapes\nThe shape language is \"Soft-Industrial.\" Components use a **4px (Soft)** corner radius to maintain a professional, slightly rigid feel that aligns with cybersecurity's need for order. \n- **Buttons and Inputs:** 4px radius.\n- **Cards and Modals:** 8px (Large) radius.\n- **Severity Badges:** 2px radius for a sharper, \"tag-like\" appearance.\n- **Selection Indicators:** Vertical bars (pill-shaped) are used on the left edge of active list items or navigation links.\n\n## Components\n- **Buttons:** Primary buttons use a solid Cyan (#06B6D4) fill with Slate 950 text. Secondary buttons use a Slate 800 ghost style with 1px borders.\n- **Severity Badges:** Compact labels with JetBrains Mono text. Use low-opacity fills (15%) of the accent color with a solid 1px border of the same color for high visibility.\n- **Data Tables:** Row headers in Slate 50. Alternate row striping is not used; instead, use 1px bottom borders. Critical rows should have a 2px Crimson left-border highlight.\n- **Progress Bars:** Thin 4px tracks. The \"fill\" should utilize a slight gradient of the accent color. Critical bars (Red) include the soft glow effect mentioned in Elevation.\n- **Radar Charts:** Use semi-transparent Cyan strokes with Slate 400 grid lines. Vertices for high-risk nodes should be marked with Amber or Red points.\n- **Input Fields:** Dark fills (#0F172A) with a Slate 700 border. Focus state changes border to Cyan with a 1px glow.",
+      "colorVariant": "FIDELITY",
+      "overridePrimaryColor": "#06b6d4",
+      "overrideSecondaryColor": "#ef4444",
+      "overrideTertiaryColor": "#f59e0b",
+      "spacingScale": 2,
+      "typography": {
+        "body-lg": {
+          "fontFamily": "Inter",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px"
+        },
+        "body-md": {
+          "fontFamily": "Inter",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "20px"
+        },
+        "display": {
+          "fontFamily": "Geist",
+          "fontSize": "36px",
+          "fontWeight": "700",
+          "lineHeight": "44px",
+          "letterSpacing": "-0.02em"
+        },
+        "headline-lg": {
+          "fontFamily": "Geist",
+          "fontSize": "28px",
+          "fontWeight": "600",
+          "lineHeight": "36px"
+        },
+        "headline-md": {
+          "fontFamily": "Geist",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "28px"
+        },
+        "label-caps": {
+          "fontFamily": "Inter",
+          "fontSize": "11px",
+          "fontWeight": "700",
+          "lineHeight": "16px",
+          "letterSpacing": "0.05em"
+        },
+        "technical-md": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "lineHeight": "20px",
+          "letterSpacing": "0.01em"
+        },
+        "technical-sm": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "lineHeight": "16px"
+        }
+      },
+      "spacing": {
+        "base": "4px",
+        "gutter": "16px",
+        "lg": "24px",
+        "margin": "24px",
+        "md": "16px",
+        "sm": "8px",
+        "xl": "32px",
+        "xs": "4px"
+      },
+      "headlineFontFamily": "Geist",
+      "bodyFontFamily": "Inter",
+      "labelFontFamily": "Jetbrains Mono"
+    }
+  },
+  "version": "1"
+}

@@ -1,0 +1,482 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>User Management | Vigil AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#d0bcff",
+                        "on-surface-variant": "#bcc9cd",
+                        "on-surface": "#dee3e6",
+                        "on-background": "#dee3e6",
+                        "primary-container": "#06b6d4",
+                        "tertiary-fixed-dim": "#ffb873",
+                        "surface-container-highest": "#303638",
+                        "surface-bright": "#343a3c",
+                        "outline-variant": "#3d494c",
+                        "on-primary": "#003640",
+                        "on-tertiary-fixed-variant": "#6a3b00",
+                        "surface-dim": "#0e1416",
+                        "primary-fixed": "#acedff",
+                        "on-tertiary-container": "#5b3200",
+                        "on-secondary-container": "#c4abff",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#090f11",
+                        "on-secondary": "#3c0091",
+                        "inverse-primary": "#00687a",
+                        "surface": "#0e1416",
+                        "tertiary": "#ffb873",
+                        "surface-variant": "#303638",
+                        "on-primary-container": "#00424f",
+                        "primary": "#4cd7f6",
+                        "on-secondary-fixed": "#23005c",
+                        "outline": "#869397",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#e9ddff",
+                        "surface-tint": "#4cd7f6",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "inverse-surface": "#dee3e6",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "tertiary-container": "#e89337",
+                        "surface-container-low": "#171d1e",
+                        "background": "#0e1416",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "surface-container": "#1b2122",
+                        "on-tertiary": "#4b2800",
+                        "tertiary-fixed": "#ffdcbf",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#2b3133",
+                        "on-primary-fixed": "#001f26",
+                        "surface-container-high": "#252b2d",
+                        "secondary-container": "#571bc1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Geist"],
+                        "technical-md": ["JetBrains Mono"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "body-lg": ["Geist"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Geist"],
+                        "display": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "code-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e1416;
+            color: #dee3e6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 15px -3px rgba(76, 215, 246, 0.4);
+        }
+        .glow-error {
+            box-shadow: 0 0 15px -3px rgba(255, 180, 171, 0.4);
+        }
+        .glow-warning {
+            box-shadow: 0 0 15px -3px rgba(255, 184, 115, 0.4);
+        }
+    </style>
+</head>
+<body class="font-body-md">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[240px] flex flex-col z-40 bg-surface-container-low border-r border-outline-variant">
+<div class="p-margin">
+<h1 class="text-headline-lg font-headline-lg text-primary tracking-tight">Vigil AI</h1>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant mt-1">Model Status: <span class="text-primary">Adaptive</span></p>
+</div>
+<nav class="flex-1 mt-md">
+<ul class="space-y-1">
+<li class="">
+<a class="flex items-center px-margin py-3 text-on-surface-variant font-technical-md hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">radar</span>
+                        Threat Engine
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center px-margin py-3 text-on-surface-variant font-technical-md hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">list_alt</span>
+                        Vulnerability Queue
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center px-margin py-3 text-on-surface-variant font-technical-md hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings_input_component</span>
+                        Model Settings
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center px-margin py-3 text-on-surface-variant font-technical-md hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">description</span>
+                        Intel Reports
+                    </a>
+</li>
+
+</ul>
+</nav>
+<div class="p-margin border-t border-outline-variant">
+<button class="w-full py-2 bg-error-container text-on-error-container font-technical-md rounded-lg flex items-center justify-center hover:brightness-110 transition-all active:scale-95 glow-error">
+<span class="material-symbols-outlined mr-2">lock</span>
+                Emergency Lock
+            </button>
+<ul class="mt-md space-y-2">
+<li class=""><a class="flex items-center text-on-surface-variant font-technical-sm hover:text-on-surface" href="#"><span class="material-symbols-outlined mr-2 text-sm">help_outline</span> Documentation</a></li>
+<li class=""><a class="flex items-center text-on-surface-variant font-technical-sm hover:text-on-surface" href="#"><span class="material-symbols-outlined mr-2 text-sm">contact_support</span> Support</a></li>
+</ul>
+</div>
+</aside>
+<!-- TopNavBar & Content Area -->
+<div class="ml-[240px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-30 flex justify-between items-center w-full px-margin h-16 bg-surface-dim border-b border-outline-variant">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-md font-bold text-primary">Vigil AI // Kinetic Sentinel</span>
+<div class="hidden md:flex items-center gap-gutter">
+<a class="text-on-surface-variant font-technical-md hover:bg-surface-container-highest px-3 py-1 transition-colors" href="#">Overview</a>
+<a class="text-primary font-technical-md border-b-2 border-primary px-3 py-1" href="#">Identity &amp; Access</a>
+<a class="text-on-surface-variant font-technical-md hover:bg-surface-container-highest px-3 py-1 transition-colors" href="#">Audit Logs</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-4 py-2 border border-outline-variant text-on-surface font-technical-sm hover:bg-surface-container-highest transition-colors active:scale-95 duration-100">Export Report</button>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container font-technical-sm rounded-lg hover:brightness-110 transition-all active:scale-95 duration-100">Run Recalibration</button>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 p-margin bg-background">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-xl">
+<div>
+<h2 class="text-display font-display text-on-surface">Identity &amp; Access Management</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Manage analyst permissions and audit active sessions</p>
+</div>
+<button class="flex items-center gap-sm px-6 py-3 bg-primary text-on-primary font-technical-md rounded-lg hover:brightness-110 transition-all glow-cyan active:scale-95">
+<span class="material-symbols-outlined">person_add</span>
+                    Invite New User
+                </button>
+</div>
+<!-- Stats Overview (Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-xl">
+<div class="bg-surface-container-low border border-outline-variant p-md rounded-lg border-l-4 border-l-primary">
+<p class="text-label-caps font-label-caps text-on-surface-variant mb-1">TOTAL USERS</p>
+<h3 class="text-display font-display text-primary">42 <span class="text-technical-sm font-technical-sm text-on-surface-variant">Active</span></h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md rounded-lg border-l-4 border-l-tertiary">
+<p class="text-label-caps font-label-caps text-on-surface-variant mb-1">PENDING INVITES</p>
+<h3 class="text-display font-display text-tertiary">3</h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md rounded-lg border-l-4 border-l-secondary">
+<p class="text-label-caps font-label-caps text-on-surface-variant mb-1">ADMIN/SUPERUSERS</p>
+<h3 class="text-display font-display text-on-surface">5</h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md rounded-lg border-l-4 border-l-primary">
+<p class="text-label-caps font-label-caps text-on-surface-variant mb-1">ACTIVE SESSIONS</p>
+<h3 class="text-display font-display text-primary">12 <span class="text-technical-sm font-technical-sm text-on-surface-variant">Current</span></h3>
+</div>
+</div>
+<!-- Main Management Area (2 Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-xl mb-xl">
+<!-- User Directory (70%) -->
+<div class="lg:col-span-7 bg-surface-container-low border border-outline-variant rounded-lg overflow-hidden flex flex-col shadow-lg">
+<div class="p-md bg-surface-container border-b border-outline-variant flex justify-between items-center">
+<h4 class="text-headline-md font-headline-md text-primary">User Directory</h4>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-background border border-outline-variant text-on-surface text-technical-sm pl-10 pr-4 py-1.5 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-64 transition-all" placeholder="Search analysts..." type="text">
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-high">
+<th class="px-md py-4 text-label-caps font-label-caps text-on-surface-variant">USER</th>
+<th class="px-md py-4 text-label-caps font-label-caps text-on-surface-variant">ROLE</th>
+<th class="px-md py-4 text-label-caps font-label-caps text-on-surface-variant">STATUS</th>
+<th class="px-md py-4 text-label-caps font-label-caps text-on-surface-variant">LAST ACTIVE</th>
+<th class="px-md py-4 text-label-caps font-label-caps text-on-surface-variant text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant bg-surface-container-lowest">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-md py-4 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/40 ring-2 ring-primary/10">
+<img class="w-full h-full object-cover" data-alt="Female cybersecurity analyst" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-iMA7SZTuVjkfGclyjTc72lYovgoE3hGcMlLy6Nn-CHuS95RPjnu5whIyHGhhoFAHjAwrZTTqKcSdW4mKPmn1hzStoXDN1OdP3IJVnB8yxoIn3LTG_OFRnp3Faz80hWWQUW4ByY9YSAwUuWGaYazGb9curAmz-60gvltTrvIpfIrz5qh9CL_3mYXz4LGkhMsjdiGRJ-YwSWrFgGLhYQsxF_Gujpdr9lXhjpqA_Q5IU1ZRCczVvlFX01rVNpjs0QeOnfUtOvkCa84">
+</div>
+<div>
+<p class="text-technical-md font-technical-md text-on-surface">Sarah K. Vance</p>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant">s.vance@psssguard.io</p>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="text-technical-sm font-technical-sm text-primary-fixed-dim bg-primary/10 px-2 py-0.5 rounded border border-primary/20">Senior Analyst</span>
+</td>
+<td class="px-md py-4">
+<span class="px-3 py-1 rounded-full border border-primary bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest glow-cyan">Active</span>
+</td>
+<td class="px-md py-4 text-technical-sm font-technical-sm text-on-surface">2 mins ago</td>
+<td class="px-md py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-all p-2 hover:bg-surface-container-highest rounded-full">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-md py-4 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-tertiary/40">
+<img class="w-full h-full object-cover" data-alt="Male system administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdrIYSb5ZSybFzXnRUBT53ycz0tD8wmyZz4C_gJDNti9L9pzRmLNkPOhRrhU0tjDKPjz1oZKsf4fDjs7dT1bQnHSQcyc7EqUtZ094O6rcowQQXISBM2IS57USpDmWf9Ek0g80LrWxeovPXX7Gs84IBD_tdmT5lLMT0yTxkVcxzOTJ6NqTRMzc8LApgPAeW-UuUDh_8wMaxr1demdjTsMCmd2JvgFIVWdpxaGnVmt6wKj24rAROnoCEdrcTsgMyM_pO0JCZ_uMLfc0">
+</div>
+<div>
+<p class="text-technical-md font-technical-md text-on-surface">Marcus Thorne</p>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant">m.thorne@psssguard.io</p>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="text-technical-sm font-technical-sm text-tertiary bg-tertiary/10 px-2 py-0.5 rounded border border-tertiary/20">Admin</span>
+</td>
+<td class="px-md py-4">
+<span class="px-3 py-1 rounded-full border border-outline text-on-surface-variant text-[10px] font-bold uppercase tracking-widest bg-surface-container-high">Away</span>
+</td>
+<td class="px-md py-4 text-technical-sm font-technical-sm text-on-surface">45 mins ago</td>
+<td class="px-md py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-all p-2 hover:bg-surface-container-highest rounded-full">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-md py-4 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-error/40">
+<img class="w-full h-full object-cover" data-alt="Junior analyst" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1_bibER4cjv7Cc5CngIpOXNCjck5dFM6ELpNRY8xoQmdv6HVqB-k_a3oMVWsik3Ek4iaVJOuYumMOrNptadklypek9gOE4QGAEb_nX1v0rh5OLtHGNhnx_lmERABi3QkYOjkPTPBFcW0S_WO4Yz_pACzTrgF0MTAiKANFgblcrbueGzucicppH8sluqT4exDqfcxM1jyM2McUwbZXt8whJATdY8yFE8PfYNExwfL53ezFs9CB5S3pgXDAoff8UaoTejbAyXH_vdg">
+</div>
+<div>
+<p class="text-technical-md font-technical-md text-on-surface">Julian Chen</p>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant">j.chen@psssguard.io</p>
+</div>
+</td>
+<td class="px-md py-4">
+<span class="text-technical-sm font-technical-sm text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded">Junior Analyst</span>
+</td>
+<td class="px-md py-4">
+<span class="px-3 py-1 rounded-full border border-error bg-error/20 text-error text-[10px] font-bold uppercase tracking-widest glow-error">Suspended</span>
+</td>
+<td class="px-md py-4 text-technical-sm font-technical-sm text-on-surface">14 days ago</td>
+<td class="px-md py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-all p-2 hover:bg-surface-container-highest rounded-full">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container border-t border-outline-variant flex justify-between items-center mt-auto">
+<span class="text-technical-sm font-technical-sm text-on-surface-variant">Showing 3 of 42 analysts</span>
+<div class="flex gap-base">
+<button class="px-3 py-1 border border-outline-variant text-on-surface-variant rounded hover:bg-primary hover:text-on-primary transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="px-3 py-1 border border-outline-variant text-on-surface-variant rounded hover:bg-primary hover:text-on-primary transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- RBAC (30%) -->
+<div class="lg:col-span-3 space-y-gutter">
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-md flex flex-col h-full shadow-lg">
+<div class="flex items-center justify-between mb-md">
+<h4 class="text-headline-md font-headline-md text-secondary">RBAC Rules</h4>
+<span class="material-symbols-outlined text-secondary">shield_with_heart</span>
+</div>
+<div class="mb-xl">
+<label class="text-label-caps font-label-caps text-on-surface-variant block mb-2">ACTIVE TEMPLATE</label>
+<div class="flex items-center gap-sm bg-surface-container-highest p-4 rounded-lg border border-primary/30 glow-cyan">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-technical-md font-technical-md text-on-surface font-bold">Senior Analyst</span>
+</div>
+</div>
+<div class="space-y-md flex-1">
+<label class="text-label-caps font-label-caps text-on-surface-variant block">PERMISSIONS</label>
+<!-- Toggle 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex flex-col">
+<span class="text-technical-md font-technical-md text-on-surface">Override Model Weights</span>
+<span class="text-[10px] text-on-surface-variant">Allows manual priority forcing</span>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative transition-colors duration-300">
+<div class="absolute right-0.5 top-0.5 w-4 h-4 bg-on-primary rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Toggle 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex flex-col">
+<span class="text-technical-md font-technical-md text-on-surface">Export Reports</span>
+<span class="text-[10px] text-on-surface-variant">Download vulnerability logs</span>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative transition-colors duration-300">
+<div class="absolute right-0.5 top-0.5 w-4 h-4 bg-on-primary rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Toggle 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-high border border-outline-variant/30 opacity-50 cursor-not-allowed">
+<div class="flex flex-col">
+<span class="text-technical-md font-technical-md text-on-surface">Access System Audit</span>
+<span class="text-[10px] text-on-surface-variant">Global admin log access</span>
+</div>
+<div class="w-10 h-5 bg-outline-variant rounded-full relative">
+<div class="absolute left-0.5 top-0.5 w-4 h-4 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+<button class="mt-xl w-full py-3 bg-secondary text-on-secondary font-technical-md rounded-lg hover:brightness-110 transition-all active:scale-[0.98] font-bold">
+                            Modify Role Template
+                        </button>
+</div>
+</div>
+</div>
+<!-- Recent Access Logs -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-md shadow-lg">
+<div class="flex items-center justify-between mb-md">
+<h4 class="text-headline-md font-headline-md text-primary">Recent Access Logs</h4>
+<button class="text-technical-sm font-technical-sm text-primary-fixed-dim hover:text-primary hover:underline transition-all flex items-center gap-1">
+                        View All Logs <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+<div class="space-y-base">
+<!-- Log 1 -->
+<div class="grid grid-cols-12 gap-md p-4 border-b border-outline-variant/20 items-center hover:bg-primary/5 transition-colors">
+<div class="col-span-1 flex justify-center">
+<span class="material-symbols-outlined text-primary text-sm">login</span>
+</div>
+<div class="col-span-3 text-technical-md font-technical-md text-on-surface font-semibold">Sarah K. Vance</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-primary">192.168.1.104</div>
+<div class="col-span-3 flex items-center gap-base">
+<span class="material-symbols-outlined text-xs text-on-surface-variant">location_on</span>
+<span class="text-technical-sm font-technical-sm text-on-surface-variant">New York, USA</span>
+</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-on-surface-variant text-right">08:42:15 AM</div>
+<div class="col-span-1 text-right">
+<span class="w-2 h-2 rounded-full bg-primary inline-block glow-cyan"></span>
+</div>
+</div>
+<!-- Log 2 -->
+<div class="grid grid-cols-12 gap-md p-4 border-b border-outline-variant/20 items-center hover:bg-tertiary/5 transition-colors">
+<div class="col-span-1 flex justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm">security_update_warning</span>
+</div>
+<div class="col-span-3 text-technical-md font-technical-md text-on-surface font-semibold">Marcus Thorne</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-tertiary">10.0.0.24</div>
+<div class="col-span-3 flex items-center gap-base">
+<span class="material-symbols-outlined text-xs text-on-surface-variant">location_on</span>
+<span class="text-technical-sm font-technical-sm text-on-surface-variant">Remote VPN // London</span>
+</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-on-surface-variant text-right">07:15:33 AM</div>
+<div class="col-span-1 text-right">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block glow-warning"></span>
+</div>
+</div>
+<!-- Log 3 -->
+<div class="grid grid-cols-12 gap-md p-4 items-center bg-error/5 hover:bg-error/10 transition-colors">
+<div class="col-span-1 flex justify-center">
+<span class="material-symbols-outlined text-error text-sm">error</span>
+</div>
+<div class="col-span-3 text-technical-md font-technical-md text-error font-bold">Failed Attempt</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-error">185.234.12.5</div>
+<div class="col-span-3 flex items-center gap-base">
+<span class="material-symbols-outlined text-xs text-error">location_on</span>
+<span class="text-technical-sm font-technical-sm text-error/80">Unknown // Moscow</span>
+</div>
+<div class="col-span-2 text-technical-sm font-technical-sm text-error/80 text-right">06:02:11 AM</div>
+<div class="col-span-1 text-right">
+<span class="w-3 h-3 rounded-full bg-error inline-block glow-error animate-pulse"></span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.classList.add('scale-95');
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.classList.remove('scale-95');
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.classList.remove('scale-95');
+            });
+        });
+
+        // Toggle simulation for RBAC
+        document.querySelectorAll('.cursor-pointer').forEach(toggleContainer => {
+            toggleContainer.addEventListener('click', function() {
+                const toggle = this.querySelector('.relative');
+                const inner = toggle.querySelector('div');
+                if (toggle.classList.contains('bg-primary')) {
+                    toggle.classList.remove('bg-primary');
+                    toggle.classList.add('bg-outline-variant');
+                    inner.classList.remove('right-0.5');
+                    inner.classList.add('left-0.5');
+                    inner.classList.remove('bg-on-primary');
+                    inner.classList.add('bg-surface-container-highest');
+                } else if (toggle.classList.contains('bg-outline-variant')) {
+                    toggle.classList.add('bg-primary');
+                    toggle.classList.remove('bg-outline-variant');
+                    inner.classList.add('right-0.5');
+                    inner.classList.remove('left-0.5');
+                    inner.classList.add('bg-on-primary');
+                    inner.classList.remove('bg-surface-container-highest');
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

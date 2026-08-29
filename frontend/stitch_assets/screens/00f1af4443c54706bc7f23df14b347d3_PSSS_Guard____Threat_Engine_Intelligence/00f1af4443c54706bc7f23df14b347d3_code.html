@@ -1,0 +1,453 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Vigil AI // Threat Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            background-color: #0e1416;
+            color: #dee3e6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .threat-glow-red {
+            box-shadow: 0 0 12px rgba(255, 180, 171, 0.15);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #4cd7f6, transparent);
+            opacity: 0.1;
+            position: absolute;
+            top: 0;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .matrix-grid {
+            background-image: radial-gradient(circle at 1px 1px, #3d494c 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb3ad",
+                        "surface-container-low": "#171d1e",
+                        "surface-bright": "#343a3c",
+                        "primary-container": "#06b6d4",
+                        "primary": "#4cd7f6",
+                        "on-primary-container": "#00424f",
+                        "surface-container-highest": "#303638",
+                        "surface-container-high": "#252b2d",
+                        "on-primary-fixed": "#001f26",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffddb8",
+                        "outline-variant": "#3d494c",
+                        "on-primary": "#003640",
+                        "secondary-fixed-dim": "#ffb3ad",
+                        "secondary-fixed": "#ffdad7",
+                        "on-secondary-container": "#ffaea8",
+                        "on-tertiary-fixed": "#2a1700",
+                        "inverse-primary": "#00687a",
+                        "tertiary-container": "#e79400",
+                        "on-tertiary": "#472a00",
+                        "surface-tint": "#4cd7f6",
+                        "on-surface-variant": "#bcc9cd",
+                        "surface-container-lowest": "#090f11",
+                        "tertiary": "#ffb95f",
+                        "on-tertiary-container": "#563400",
+                        "on-secondary": "#68000a",
+                        "on-background": "#dee3e6",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-surface": "#dee3e6",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "on-secondary-fixed-variant": "#930013",
+                        "outline": "#869397",
+                        "inverse-surface": "#dee3e6",
+                        "surface-container": "#1b2122",
+                        "surface-dim": "#0e1416",
+                        "surface-variant": "#303638",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#acedff",
+                        "inverse-on-surface": "#2b3133",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "surface": "#0e1416",
+                        "on-error": "#690005",
+                        "background": "#0e1416",
+                        "on-secondary-fixed": "#410004",
+                        "secondary-container": "#a40217"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "margin": "24px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "technical-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Geist"],
+                        "display": ["Geist"]
+                    },
+                    "fontSize": {
+                        "technical-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "technical-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="flex min-h-screen bg-background">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[240px] flex flex-col z-40 bg-surface-container-low border-r border-outline-variant">
+<div class="p-lg flex flex-col gap-xs">
+<h1 class="text-headline-lg font-headline-lg text-primary">Vigil AI</h1>
+<p class="text-technical-sm font-technical-sm text-on-surface-variant uppercase tracking-widest opacity-70">Model Status: Adaptive</p>
+</div>
+<nav class="flex-1 mt-lg flex flex-col px-sm gap-xs">
+<!-- Active State Navigation -->
+<a class="flex items-center gap-md px-md py-sm text-primary border-l-2 border-primary bg-surface-container-high transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">radar</span>
+<span class="text-technical-md font-technical-md">Threat Engine</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">list_alt</span>
+<span class="text-technical-md font-technical-md">Vulnerability Queue</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">settings_input_component</span>
+<span class="text-technical-md font-technical-md">Model Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="text-technical-md font-technical-md">Intel Reports</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">security</span>
+<span class="text-technical-md font-technical-md">System Audit</span>
+</a>
+</nav>
+<div class="p-lg mt-auto flex flex-col gap-sm">
+<button class="w-full py-md bg-error-container text-error border border-error/20 font-technical-md text-technical-md uppercase tracking-wider hover:bg-error hover:text-on-error transition-colors duration-200">
+                Emergency Lock
+            </button>
+<div class="flex flex-col gap-xs pt-md">
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+<span class="text-technical-sm">Documentation</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined text-sm">contact_support</span>
+<span class="text-technical-sm">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-[240px] flex flex-col">
+<!-- Top Bar Navigation Shell -->
+<header class="flex justify-between items-center w-full px-margin h-16 bg-surface-dim border-b border-outline-variant sticky top-0 z-30">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-md font-bold text-primary">Vigil AI // Adaptive Vulnerability Prioritization</span>
+</div>
+<div class="flex items-center gap-lg">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface hover:bg-outline-variant transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-lg">sync_problem</span>
+<span class="text-technical-sm font-technical-sm">Run Model Recalibration</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-lg">file_download</span>
+<span class="text-technical-sm font-technical-sm">Export Report</span>
+</button>
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</header>
+<div class="p-margin flex flex-col gap-lg">
+<!-- Top KPIs Row -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-xs relative overflow-hidden group">
+<div class="scanline"></div>
+<span class="text-on-surface-variant text-technical-sm uppercase">Active Campaigns</span>
+<div class="flex items-baseline gap-sm">
+<span class="text-display font-display text-primary">12</span>
+<span class="text-primary/60 text-technical-sm">Live Trackers</span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-xs relative group">
+<span class="text-on-surface-variant text-technical-sm uppercase">Identified Threat Actors</span>
+<div class="flex items-baseline gap-sm">
+<span class="text-display font-display text-primary">45</span>
+<span class="text-primary/60 text-technical-sm">Tracked Entities</span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-xs relative group">
+<span class="text-on-surface-variant text-technical-sm uppercase">MITRE Technique Coverage</span>
+<div class="flex items-baseline gap-sm">
+<span class="text-display font-display text-tertiary">68<span class="text-headline-md">%</span></span>
+<div class="flex-1 bg-surface-container-highest h-1 ml-md rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[68%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low border border-error/40 p-lg flex flex-col gap-xs relative threat-glow-red">
+<span class="text-error text-technical-sm uppercase font-bold flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm animate-pulse" style="font-variation-settings: 'FILL' 1;">error</span>
+                        Emerging Zero-Day Alerts
+                    </span>
+<div class="flex items-baseline gap-sm">
+<span class="text-display font-display text-error">3</span>
+<span class="text-error/60 text-technical-sm italic">Critical Intel</span>
+</div>
+</div>
+</section>
+<!-- Main Content Area: Feed & Heatmap -->
+<section class="grid grid-cols-1 lg:grid-cols-10 gap-lg h-[500px]">
+<!-- Real-time Activity Feed -->
+<div class="lg:col-span-7 bg-surface-container-low border border-outline-variant flex flex-col overflow-hidden">
+<div class="p-md border-b border-outline-variant bg-surface-container flex justify-between items-center">
+<h2 class="text-headline-md font-headline-md text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined">analytics</span>
+                            Real-time Threat Activity Feed
+                        </h2>
+<span class="text-technical-sm font-technical-sm text-on-surface-variant">Live Uplink: Stable</span>
+</div>
+<div class="flex-1 overflow-y-auto matrix-grid p-xs">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-low z-10">
+<tr class="text-on-surface-variant text-technical-sm border-b border-outline-variant">
+<th class="p-md font-medium">TIMESTAMP</th>
+<th class="p-md font-medium">THREAT ACTOR</th>
+<th class="p-md font-medium">TARGET SECTOR</th>
+<th class="p-md font-medium">TECHNIQUE ID</th>
+<th class="p-md font-medium text-right">PSSS IMPACT</th>
+</tr>
+</thead>
+<tbody class="text-technical-sm font-technical-md">
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<td class="p-md text-on-surface-variant">2023-11-24 14:02:11</td>
+<td class="p-md text-primary font-bold">Lazarus Group</td>
+<td class="p-md">Financial / APAC</td>
+<td class="p-md font-technical-sm opacity-70">T1566.002</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-error-container/20 text-error border border-error/30">9.4</span></td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors border-l-2 border-error">
+<td class="p-md text-on-surface-variant">2023-11-24 13:58:45</td>
+<td class="p-md text-primary font-bold">APT28 (Fancy Bear)</td>
+<td class="p-md">Government / EU</td>
+<td class="p-md font-technical-sm opacity-70">T1003.001</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-error-container/20 text-error border border-error/30">8.8</span></td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<td class="p-md text-on-surface-variant">2023-11-24 13:45:10</td>
+<td class="p-md text-primary font-bold">Volt Typhoon</td>
+<td class="p-md">Critical Infra / US</td>
+<td class="p-md font-technical-sm opacity-70">T1190</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-tertiary/10 text-tertiary border border-tertiary/30">7.2</span></td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<td class="p-md text-on-surface-variant">2023-11-24 13:30:22</td>
+<td class="p-md text-primary font-bold">Scattered Spider</td>
+<td class="p-md">SaaS / Enterprise</td>
+<td class="p-md font-technical-sm opacity-70">T1558</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-tertiary/10 text-tertiary border border-tertiary/30">6.9</span></td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<td class="p-md text-on-surface-variant">2023-11-24 13:12:05</td>
+<td class="p-md text-primary font-bold">UNC2452</td>
+<td class="p-md">Supply Chain</td>
+<td class="p-md font-technical-sm opacity-70">T1195.002</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-primary-container/20 text-primary border border-primary/30">5.4</span></td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<td class="p-md text-on-surface-variant">2023-11-24 12:55:59</td>
+<td class="p-md text-primary font-bold">Kimsuky</td>
+<td class="p-md">NGO / Korea</td>
+<td class="p-md font-technical-sm opacity-70">T1204.002</td>
+<td class="p-md text-right"><span class="px-sm py-xs bg-primary-container/20 text-primary border border-primary/30">4.1</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- MITRE ATT&CK Heatmap -->
+<div class="lg:col-span-3 bg-surface-container-low border border-outline-variant flex flex-col">
+<div class="p-md border-b border-outline-variant bg-surface-container">
+<h2 class="text-headline-md font-headline-md text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined">grid_view</span>
+                            MITRE Heatmap
+                        </h2>
+</div>
+<div class="p-md flex flex-col gap-md">
+<div class="grid grid-cols-4 gap-xs">
+<!-- Heatmap Cells -->
+<div class="h-10 bg-error border border-error-container flex items-center justify-center text-[10px] text-on-error font-bold">Recon</div>
+<div class="h-10 bg-secondary-container border border-error-container flex items-center justify-center text-[10px] text-on-secondary">Res Dev</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">Initial</div>
+<div class="h-10 bg-error border border-error-container flex items-center justify-center text-[10px] text-on-error font-bold">Exec</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">Persist</div>
+<div class="h-10 bg-error border border-error-container flex items-center justify-center text-[10px] text-on-error font-bold">PrivEsc</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">DefEvade</div>
+<div class="h-10 bg-tertiary-container border border-tertiary flex items-center justify-center text-[10px] text-on-tertiary font-bold">CredAcc</div>
+<div class="h-10 bg-secondary-container border border-error-container flex items-center justify-center text-[10px] text-on-secondary">Disc</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">LatMove</div>
+<div class="h-10 bg-error border border-error-container flex items-center justify-center text-[10px] text-on-error font-bold">Collect</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">C2</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">Exfil</div>
+<div class="h-10 bg-error border border-error-container flex items-center justify-center text-[10px] text-on-error font-bold">Impact</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">Cloud</div>
+<div class="h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center text-[10px]">Mobile</div>
+</div>
+<div class="flex items-center justify-between text-technical-sm mt-md">
+<span class="text-on-surface-variant uppercase">Technique Saturation</span>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 bg-error"></div>
+<div class="w-3 h-3 bg-secondary-container"></div>
+<div class="w-3 h-3 bg-tertiary-container"></div>
+<div class="w-3 h-3 bg-surface-container-highest"></div>
+</div>
+</div>
+<div class="mt-lg p-md bg-surface-container rounded-sm border-l-2 border-primary">
+<p class="text-technical-sm text-on-surface-variant italic">Coverage Gap Detected: Cloud Persistence (T1098.001) lacks active monitoring nodes in APAC region.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Actor Intelligence Profiles -->
+<section class="flex flex-col gap-md">
+<h2 class="text-headline-md font-headline-md text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined">groups</span>
+                    Actor Intelligence Profiles
+                </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- APT Card 1 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-md group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-bold text-on-surface">APT28</h3>
+<p class="text-technical-sm text-primary">Alias: Fancy Bear</p>
+</div>
+<span class="px-sm py-xs bg-error-container/20 text-error text-technical-sm border border-error/30">CRITICAL</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Spearphishing</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Credential Theft</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">UEFI Rootkits</span>
+</div>
+<div class="flex flex-col gap-xs pt-sm border-t border-outline-variant/30">
+<span class="text-[10px] uppercase text-on-surface-variant">Recent Activity</span>
+<p class="text-technical-sm">Campaign 'Operation Blue Fox' targeting US defense sub-contractors.</p>
+</div>
+<div class="flex justify-between items-center mt-auto">
+<span class="text-technical-sm text-on-surface-variant">CVE-2023-38831</span>
+<button class="text-primary hover:underline text-technical-sm">Full Dossier ›</button>
+</div>
+</div>
+<!-- APT Card 2 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-md group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-bold text-on-surface">Lazarus Group</h3>
+<p class="text-technical-sm text-primary">Origin: North Korea</p>
+</div>
+<span class="px-sm py-xs bg-error-container/20 text-error text-technical-sm border border-error/30">CRITICAL</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Crypto Heists</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Supply Chain</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Destructive Malware</span>
+</div>
+<div class="flex flex-col gap-xs pt-sm border-t border-outline-variant/30">
+<span class="text-[10px] uppercase text-on-surface-variant">Recent Activity</span>
+<p class="text-technical-sm">Attempted lateral movement via decentralized exchange vulnerability.</p>
+</div>
+<div class="flex justify-between items-center mt-auto">
+<span class="text-technical-sm text-on-surface-variant">CVE-2023-4863</span>
+<button class="text-primary hover:underline text-technical-sm">Full Dossier ›</button>
+</div>
+</div>
+<!-- APT Card 3 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-md group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-bold text-on-surface">Volt Typhoon</h3>
+<p class="text-technical-sm text-primary">Origin: State-Sponsored</p>
+</div>
+<span class="px-sm py-xs bg-tertiary/10 text-tertiary text-technical-sm border border-tertiary/30">HIGH</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Living Off The Land</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">SOHO Routers</span>
+<span class="px-xs py-[2px] bg-surface-container-highest text-on-surface-variant text-[10px] font-technical-sm">Botnets</span>
+</div>
+<div class="flex flex-col gap-xs pt-sm border-t border-outline-variant/30">
+<span class="text-[10px] uppercase text-on-surface-variant">Recent Activity</span>
+<p class="text-technical-sm">Discovery of persistent access in Guam regional utility grids.</p>
+</div>
+<div class="flex justify-between items-center mt-auto">
+<span class="text-technical-sm text-on-surface-variant">CVE-2023-3519</span>
+<button class="text-primary hover:underline text-technical-sm">Full Dossier ›</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Visual Decoration -->
+<footer class="mt-auto h-2 bg-gradient-to-r from-primary/10 via-error/20 to-primary/10 opacity-30"></footer>
+</main>
+<!-- Floating Scan Micro-interaction Script -->
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.group');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

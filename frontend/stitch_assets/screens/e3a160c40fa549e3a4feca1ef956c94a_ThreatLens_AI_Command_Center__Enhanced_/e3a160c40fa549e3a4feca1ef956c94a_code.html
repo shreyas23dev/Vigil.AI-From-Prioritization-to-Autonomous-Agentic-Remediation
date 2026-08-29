@@ -1,0 +1,533 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Vigil AI // Adaptive Vulnerability Prioritization</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;600;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "secondary": "#d0bcff",
+                "on-surface-variant": "#bcc9cd",
+                "on-surface": "#dee3e6",
+                "on-background": "#dee3e6",
+                "primary-container": "#06b6d4",
+                "tertiary-fixed-dim": "#ffb873",
+                "surface-container-highest": "#303638",
+                "surface-bright": "#343a3c",
+                "outline-variant": "#3d494c",
+                "on-primary": "#003640",
+                "on-tertiary-fixed-variant": "#6a3b00",
+                "surface-dim": "#0e1416",
+                "primary-fixed": "#acedff",
+                "on-tertiary-container": "#5b3200",
+                "on-secondary-container": "#c4abff",
+                "on-error-container": "#ffdad6",
+                "surface-container-lowest": "#090f11",
+                "on-secondary": "#3c0091",
+                "inverse-primary": "#00687a",
+                "surface": "#0e1416",
+                "tertiary": "#ffb873",
+                "surface-variant": "#303638",
+                "on-primary-container": "#00424f",
+                "primary": "#4cd7f6",
+                "on-secondary-fixed": "#23005c",
+                "outline": "#869397",
+                "error-container": "#93000a",
+                "on-tertiary-fixed": "#2d1600",
+                "error": "#ffb4ab",
+                "secondary-fixed": "#e9ddff",
+                "surface-tint": "#4cd7f6",
+                "on-primary-fixed-variant": "#004e5c",
+                "secondary-fixed-dim": "#d0bcff",
+                "inverse-surface": "#dee3e6",
+                "primary-fixed-dim": "#4cd7f6",
+                "tertiary-container": "#e89337",
+                "surface-container-low": "#171d1e",
+                "background": "#0e1416",
+                "on-secondary-fixed-variant": "#5516be",
+                "surface-container": "#1b2122",
+                "on-tertiary": "#4b2800",
+                "tertiary-fixed": "#ffdcbf",
+                "on-error": "#690005",
+                "inverse-on-surface": "#2b3133",
+                "on-primary-fixed": "#001f26",
+                "surface-container-high": "#252b2d",
+                "secondary-container": "#571bc1"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "unit": "4px",
+                "container-max": "1440px",
+                "gutter": "24px",
+                "margin-desktop": "48px",
+                "margin-mobile": "16px"
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Geist"
+                ],
+                "code-sm": [
+                        "JetBrains Mono"
+                ],
+                "body-md": [
+                        "Geist"
+                ],
+                "display-lg": [
+                        "Geist"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ],
+                "headline-lg-mobile": [
+                        "Geist"
+                ],
+                "technical-md": ["JetBrains Mono"],
+                "technical-sm": ["JetBrains Mono"],
+                "headline-md": ["Geist"],
+                "label-caps": ["Inter"]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "code-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "technical-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                "technical-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+        }
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #0e1416;
+            color: #dee3e6;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+        }
+        .technical { font-family: 'JetBrains Mono', monospace; }
+        .critical-glow { box-shadow: 0 0 12px rgba(255, 180, 171, 0.15); }
+        .cyan-glow:hover { box-shadow: 0 0 15px rgba(76, 215, 246, 0.25); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .data-grid-border { border: 1px solid #3d494c; }
+        .active-tab-indicator { height: 2px; width: 100%; position: absolute; bottom: 0; background: #4cd7f6; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface-dim border-b border-outline-variant flex justify-between items-center w-full px-12 h-16 fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-bold text-primary">Vigil AI // Adaptive Vulnerability Prioritization</span>
+<div class="ml-6 px-2 py-1 rounded bg-surface-container-high border border-outline-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">sensors</span>
+<span class="text-technical-sm text-on-surface-variant">Model Status: <span class="text-tertiary">Adaptive Weighting Active (thr=0.5)</span></span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-surface-container-highest hover:bg-surface-container-high transition-colors text-on-surface text-technical-sm px-4 h-9 border border-outline-variant rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                Export Report
+            </button>
+<button class="bg-primary-container text-on-primary-container hover:opacity-90 active:scale-95 duration-100 text-technical-sm px-4 h-9 rounded flex items-center gap-1 font-bold shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+                Run Model Recalibration
+            </button>
+</div>
+</header>
+<!-- SideNav -->
+<nav class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[240px] bg-surface-container-low border-r border-outline-variant flex flex-col z-40">
+<div class="p-4 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<div class="text-body-md font-bold leading-tight">Admin Console</div>
+<div class="text-technical-sm text-on-surface-variant">Lvl 4 Access</div>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4">
+<div class="px-4 mb-2">
+<div class="text-label-caps text-on-surface-variant opacity-50 mb-1">ANALYTICS</div>
+<a class="flex items-center gap-4 px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">radar</span>
+<span class="text-technical-md">Threat Engine</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2 rounded text-primary bg-surface-container-high border-l-2 border-primary transition-all group relative" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+<span class="text-technical-md font-bold">Vulnerability Queue</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">description</span>
+<span class="text-technical-md">Intel Reports</span>
+</a>
+</div>
+<div class="px-4 mt-6">
+<div class="text-label-caps text-on-surface-variant opacity-50 mb-1">CONFIGURATION</div>
+<a class="flex items-center gap-4 px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">settings_input_component</span>
+<span class="text-technical-md">Model Settings</span>
+</a>
+
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant space-y-2">
+<button class="w-full bg-secondary-container text-on-secondary-container text-technical-sm font-bold py-2 rounded hover:brightness-110 transition-all flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                Emergency Lock
+            </button>
+<div class="flex justify-between pt-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface">help_outline</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface">contact_support</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface">logout</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] mt-16 p-12 flex-1">
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+<div class="bg-surface-container-low border border-outline-variant p-4 rounded shadow-sm hover:border-primary/50 transition-colors">
+<div class="text-on-surface-variant text-technical-sm mb-1 uppercase tracking-wider font-semibold">Total Vulnerabilities Tracked</div>
+<div class="text-headline-lg text-on-surface font-bold technical">14,250</div>
+<div class="text-technical-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">trending_up</span>
+                    +2.4% from last scan
+                </div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-4 rounded shadow-sm hover:border-error/50 transition-colors">
+<div class="text-on-surface-variant text-technical-sm mb-1 uppercase tracking-wider font-semibold">High Priority PSSS (&gt;0.7)</div>
+<div class="text-headline-lg text-error font-bold technical">342 <span class="text-body-md font-normal text-on-surface-variant">Critical Risks</span></div>
+<div class="mt-1 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 28%"></div>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-4 rounded shadow-sm hover:border-tertiary/50 transition-colors">
+<div class="text-on-surface-variant text-technical-sm mb-1 uppercase tracking-wider font-semibold">Exploited in Wild (EPSS &gt; 0.5)</div>
+<div class="text-headline-lg text-tertiary font-bold technical">118 <span class="text-body-md font-normal text-on-surface-variant">Detected</span></div>
+<div class="text-technical-sm text-tertiary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                    Immediate Patch Required
+                </div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-4 rounded shadow-sm hover:border-primary/50 transition-colors">
+<div class="text-on-surface-variant text-technical-sm mb-1 uppercase tracking-wider font-semibold">ATT&amp;CK Critical Boosted</div>
+<div class="text-headline-lg text-primary font-bold technical">89 <span class="text-body-md font-normal text-on-surface-variant">Initial Access</span></div>
+<div class="text-technical-sm text-on-surface-variant mt-1">Correlated with active campaigns</div>
+</div>
+</div>
+<!-- Main Body: Queue & Detail -->
+<div class="grid grid-cols-12 gap-4 mb-6">
+<!-- Left: Vulnerability Queue -->
+<div class="col-span-8 flex flex-col bg-surface-container-low border border-outline-variant rounded overflow-hidden">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container">
+<div class="flex gap-4 items-center">
+<span class="text-headline-md">Vulnerability Queue</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex gap-1">
+<span class="px-2 py-1 bg-surface-container-highest text-technical-sm text-on-surface-variant border border-outline-variant rounded cursor-pointer">Severity: All</span>
+<span class="px-2 py-1 bg-surface-container-highest text-technical-sm text-on-surface-variant border border-outline-variant rounded cursor-pointer">Vector: Network</span>
+<span class="px-2 py-1 bg-surface-container-highest text-technical-sm text-on-surface-variant border border-outline-variant rounded cursor-pointer">EPSS &gt; 0.4</span>
+</div>
+</div>
+<div class="relative">
+<input class="bg-surface-dim border-outline-variant text-technical-sm rounded h-8 pl-8 w-48 focus:ring-primary focus:border-primary" placeholder="Filter by CVE ID..." type="text">
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-on-surface-variant text-[18px]">search</span>
+</div>
+</div>
+<div class="overflow-x-auto flex-1 no-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant text-label-caps border-b border-outline-variant">
+<th class="px-4 py-2 font-semibold">CVE ID</th>
+<th class="px-4 py-2 font-semibold">CVSS</th>
+<th class="px-4 py-2 font-semibold">EPSS %</th>
+<th class="px-4 py-2 font-semibold text-center">ATT&amp;CK</th>
+<th class="px-4 py-2 font-semibold">PSSS Priority Score</th>
+<th class="px-4 py-2 font-semibold"></th>
+</tr>
+</thead>
+<tbody class="text-technical-sm">
+<!-- Critical Item -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest/30 transition-colors group cursor-pointer">
+<td class="px-4 py-4">
+<span class="px-2 py-1 bg-error/10 border border-error/30 text-error rounded font-bold">CVE-2024-21626</span>
+</td>
+<td class="px-4 py-4">
+<div class="bg-surface-container-high border border-outline-variant rounded-full px-2 py-0.5 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        8.8
+                                    </div>
+</td>
+<td class="px-4 py-4 text-on-surface">85.4%</td>
+<td class="px-4 py-4 text-center">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error shadow-[0_0_8px_rgba(255,180,171,0.5)]" style="width: 92%"></div>
+</div>
+<span class="text-error font-bold">0.92</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- High Item -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest/30 transition-colors group cursor-pointer">
+<td class="px-4 py-4">
+<span class="px-2 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary rounded font-bold">CVE-2023-45866</span>
+</td>
+<td class="px-4 py-4">
+<div class="bg-surface-container-high border border-outline-variant rounded-full px-2 py-0.5 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                        7.5
+                                    </div>
+</td>
+<td class="px-4 py-4 text-on-surface">42.1%</td>
+<td class="px-4 py-4 text-center">
+<span class="material-symbols-outlined text-tertiary">shield</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 78%"></div>
+</div>
+<span class="text-tertiary font-bold">0.78</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest/30 transition-colors group cursor-pointer">
+<td class="px-4 py-4">
+<span class="px-2 py-1 bg-primary/10 border border-primary/30 text-primary rounded font-bold">CVE-2024-10221</span>
+</td>
+<td class="px-4 py-4">
+<div class="bg-surface-container-high border border-outline-variant rounded-full px-2 py-0.5 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        6.4
+                                    </div>
+</td>
+<td class="px-4 py-4 text-on-surface">12.5%</td>
+<td class="px-4 py-4 text-center">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_8px_rgba(76,215,246,0.3)]" style="width: 45%"></div>
+</div>
+<span class="text-primary font-bold">0.45</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest/30 transition-colors group cursor-pointer">
+<td class="px-4 py-4">
+<span class="px-2 py-1 bg-error/10 border border-error/30 text-error rounded font-bold">CVE-2024-21627</span>
+</td>
+<td class="px-4 py-4">
+<div class="bg-surface-container-high border border-outline-variant rounded-full px-2 py-0.5 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        9.1
+                                    </div>
+</td>
+<td class="px-4 py-4 text-on-surface">62.0%</td>
+<td class="px-4 py-4 text-center">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error shadow-[0_0_8px_rgba(255,180,171,0.5)]" style="width: 88%"></div>
+</div>
+<span class="text-error font-bold">0.88</span>
+</div>
+</td>
+<td class="px-4 py-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right: Intelligence Detail -->
+<div class="col-span-4 flex flex-col gap-4">
+<div class="bg-surface-container-low border border-outline-variant rounded flex flex-col h-full overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-container">
+<span class="text-label-caps text-on-surface-variant uppercase mb-1 block">Vulnerability Analysis</span>
+<div class="text-headline-md text-on-surface flex items-center justify-between">
+                            CVE-2024-21626
+                            <span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">open_in_new</span>
+</div>
+</div>
+<div class="p-4 space-y-6 flex-1">
+<!-- CVSS Vector -->
+<div>
+<div class="text-technical-sm font-bold text-on-surface-variant mb-2">CVSS Vector Analysis</div>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">AV:Network</span>
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">AC:Low</span>
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">PR:None</span>
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">UI:None</span>
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">S:Unchanged</span>
+<span class="px-2 py-1 bg-surface-container-highest border border-outline-variant text-technical-sm rounded">C:High</span>
+</div>
+</div>
+<!-- EPSS Gauge Visual -->
+<div class="bg-surface-container-lowest p-4 rounded border border-outline-variant">
+<div class="flex justify-between items-end mb-2">
+<div>
+<div class="text-label-caps text-on-surface-variant">EPSS SCORE</div>
+<div class="text-display-lg technical text-tertiary">0.8542</div>
+</div>
+<div class="text-technical-sm text-on-surface-variant mb-1">Top 1% Percentile</div>
+</div>
+<div class="relative pt-1">
+<div class="flex mb-2 items-center justify-between">
+<div>
+<span class="text-technical-sm font-semibold inline-block py-1 px-2 uppercase rounded-full text-tertiary bg-tertiary/10">High Exploitation Likelihood</span>
+</div>
+</div>
+<div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-surface-container-highest">
+<div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-tertiary" style="width:85%"></div>
+</div>
+</div>
+</div>
+<!-- PSSS Formula Weights -->
+<div class="bg-surface-container-highest/30 p-4 rounded border border-primary/20">
+<div class="flex items-center gap-1 text-primary mb-4">
+<span class="material-symbols-outlined text-[18px]">calculate</span>
+<span class="text-technical-sm font-bold uppercase tracking-widest">PSSS Formula Weights</span>
+</div>
+<div class="grid grid-cols-3 gap-4 text-center">
+<div class="space-y-1">
+<div class="text-technical-sm text-on-surface-variant">Alpha (CVSS)</div>
+<div class="text-headline-md font-bold technical">0.38</div>
+</div>
+<div class="space-y-1 border-x border-outline-variant">
+<div class="text-technical-sm text-on-surface-variant">Beta (EPSS)</div>
+<div class="text-headline-md font-bold technical">0.44</div>
+</div>
+<div class="space-y-1">
+<div class="text-technical-sm text-on-surface-variant">Gamma (ATT&amp;CK)</div>
+<div class="text-headline-md font-bold technical">0.18</div>
+</div>
+</div>
+</div>
+<!-- Affected Assets Info -->
+<div class="space-y-2">
+<div class="text-technical-sm font-bold text-on-surface-variant flex justify-between">
+<span class="">Detected in Environment</span>
+<span class="text-error">12 Nodes Affected</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-technical-sm p-2 bg-surface-container rounded border border-outline-variant">
+<span class="text-on-surface">production-db-cluster-01</span>
+<span class="text-on-surface-variant">Critical Data</span>
+</div>
+<div class="flex justify-between text-technical-sm p-2 bg-surface-container rounded border border-outline-variant">
+<span class="text-on-surface">api-gateway-us-east-4</span>
+<span class="text-on-surface-variant">Public Facing</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container border-t border-outline-variant flex gap-4">
+<button class="flex-1 bg-surface-container-highest hover:bg-surface-container-high text-on-surface text-technical-sm font-bold py-2 rounded border border-outline-variant transition-colors">IGNORE</button>
+<button class="flex-1 bg-primary-container text-on-primary-container text-technical-sm font-bold py-2 rounded hover:opacity-90 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">GENERATE TICKET</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Status Bar -->
+<footer class="ml-[240px] bg-surface-container-low border-t border-outline-variant h-8 flex items-center justify-between px-4">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.5)]"></span>
+<span class="text-[10px] text-on-surface-variant technical uppercase">System Integrity: Optimal</span>
+</div>
+<div class="h-3 w-[1px] bg-outline-variant"></div>
+<span class="text-[10px] text-on-surface-variant technical uppercase">Database Sync: 2m ago</span>
+</div>
+<div class="flex items-center gap-4 text-[10px] text-on-surface-variant technical uppercase">
+<span class="">Agent v2.4.0-adaptive</span>
+<span class="material-symbols-outlined text-[14px] text-primary">cloud_done</span>
+</div>
+</footer>
+<script>
+    // Simple micro-interaction for rows
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('click', () => {
+            document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('bg-surface-container-high', 'border-l-2', 'border-l-primary'));
+            row.classList.add('bg-surface-container-high', 'border-l-2', 'border-l-primary');
+        });
+    });
+</script>
+
+
+</body></html>
