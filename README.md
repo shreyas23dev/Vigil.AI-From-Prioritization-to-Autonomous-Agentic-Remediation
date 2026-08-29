@@ -82,7 +82,8 @@ Modern Security Operations Centers (SOCs) and vulnerability management teams are
 ### Core Innovations & Capabilities:
 
 * **Predictive Security Severity Score (PSSS)**: A composite scoring algorithm that unifies intrinsic severity (CVSS), real-world exploitability probability (EPSS), adversary tactic severity (MITRE ATT&CK criticality), and active APT threat actor multipliers into a single actionable 0–10 risk index.
-* **Autonomous Sentinel AI Copilot**: A dual-provider AI agent (powered by **Google Gemini** or local **Ollama** models) equipped with automated function calling to inspect pipeline health, update vulnerability statuses, override priorities, recalibrate formula weights, and predict CVSS vectors on demand.
+* **Skill Manager & Extensible AI Skills Engine**: Dynamic backend skill execution manager (`skill_manager.py`) supporting action authorization verification (SHA-256 checksums, permission allow-lists, security verification flags), live **Jira/Ticket Dispatcher**, and automated **Sigma/YARA Detection Rule Generation** with ROI Detection Value Scoring.
+* **Autonomous Sentinel AI Copilot**: A dual-provider AI agent (powered by **Google Gemini** or local **Ollama** models) equipped with automated function calling to inspect pipeline health, update vulnerability statuses, override priorities, recalibrate formula weights, dispatch Jira tickets, generate Sigma/YARA rules, and render interactive skill cards in the chat UI.
 * **Machine Learning Vector Imputer**: Built-in TF-IDF n-gram vectorization and Logistic Regression ML models that predict missing CVSS v3.1 vector metrics (`AV`, `AC`, `PR`, `UI`, `S`, `C`, `I`, `A`) from raw vulnerability text descriptions for zero-day or unclassified CVEs.
 * **Interactive ThreatEngine & Analytics**: Real-time MITRE ATT&CK tactic heatmaps with multi-metric interpolation, Top CVE priority rankings, CIA Triad impact breakdowns, and comprehensive APT actor dossiers with one-click IOC copying.
 * **Executive & Operational Intel Reports**: Print-ready and exportable PDF intelligence briefings with dark preview mode and customizable modules for leadership and auditors.
@@ -309,6 +310,11 @@ Sentinel AI interacts directly with the live threat engine using automated funct
 | `get_scoring_weights` | *none* | Reads current PSSS formula weights ($\alpha, \beta, \gamma, \mu$) |
 | `update_scoring_weights` | `cvssWeight`, `epssWeight`, etc. | Recalibrates scoring formula weights on the fly |
 | `predict_cve_vector` | `text` | ML model predicts CVSS v3.1 metrics from raw vulnerability text |
+| `verify_action` | `action`, `user_role`, `payload`, `checksum` | Verifies action permission allow-list, security flag, and payload SHA-256 checksum |
+| `create_jira_ticket` | `cve_id`, `summary`, `priority`, `assignee` | Dispatches Jira remediation ticket via JiraTicketDispatcherSkill |
+| `get_jira_tickets` | `cve_id`, `status` | Queries existing remediation tickets |
+| `update_jira_ticket` | `ticket_id`, `status` | Updates Jira ticket status |
+| `generate_detection_rules` | `cve_id`, `title`, `component`, `is_zero_day` | Generates Sigma YAML and YARA signatures with Detection Value score |
 
 ---
 
@@ -327,8 +333,14 @@ Sentinel AI interacts directly with the live threat engine using automated funct
 | `GET` | `/api/weights` | Retrieve current PSSS scoring formula weights |
 | `POST` | `/api/weights` | Update PSSS scoring formula weights |
 | `POST` | `/api/predict` | Predict CVSS 3.1 vectors and PSSS from text |
-| `GET` | `/api/agent/tools` | Retrieve OpenAI/Gemini compatible function calling schemas |
-| `POST` | `/api/agent/execute-tool` | Execute backend tool on behalf of AI agent |
+| `GET` | `/api/skills` | List registered AI skills and features |
+| `POST` | `/api/skills/verify-action` | Verify action permission, security flag, and SHA-256 payload checksum |
+| `POST` | `/api/skills/generate-rules` | Synthesize Sigma YAML SIEM rules and YARA signatures for CVEs / zero-days |
+| `POST` | `/api/jira/tickets` | Dispatch new Jira remediation ticket |
+| `GET` | `/api/jira/tickets` | Query dispatched Jira remediation tickets |
+| `PATCH` | `/api/jira/tickets/{ticket_id}/status` | Update Jira remediation ticket status |
+| `GET` | `/api/agent/tools` (and `/api/agents/tools`) | Retrieve OpenAI/Gemini compatible function calling schemas |
+| `POST` | `/api/agent/execute-tool` (and `/api/agents/execute-tool`) | Execute backend tool on behalf of AI agent with skill verification |
 
 ---
 
