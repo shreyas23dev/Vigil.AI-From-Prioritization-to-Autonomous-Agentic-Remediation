@@ -1,4 +1,4 @@
-# 🛡️ ThreatLens.AI
+# 🛡️ Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation
 
 ### **Adaptive Vulnerability Prioritization Engine & AI & Machine Learning Command Center**
 *Empowering SOC analysts, incident response teams, and CISOs to triage, contextualize, and remediate high-impact vulnerabilities using dynamic PSSS scoring, MITRE ATT&CK intelligence, and autonomous AI agents.*
@@ -23,9 +23,8 @@
 
 | Property | Details |
 | :--- | :--- |
-| **Project Title** | **ThreatLens.AI** |
-| **Team Name** | **Stratos** |
-| **Domain/Track** | **🤖 AI & Machine Learning** (*Intelligent solutions using AI, ML, automation, predictive analytics & autonomous agents*) |
+| **Project Title** | **Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation** |
+| **Team Name** | **Relentless** |
 
 ---
 
@@ -52,14 +51,13 @@
 
 ## 👥 Team Members
 
-### **Team: Stratos**
+### **Team: Relentless**
 
 | Name | Role | Focus Areas |
 | :--- | :--- | :--- |
-| **Shreyas A** | **Team Leader** | Architecture, PSSS Scoring Engine, AI Agent & Tool Calling Integration |
-| **Trinath Bhattacharya** | **Team Member** | Backend API (FastAPI), ML CVSS Vector Imputer, Pipeline Telemetry |
-| **Vinod Gowda** | **Team Member** | Frontend Dashboard (React 19, TypeScript), MITRE Heatmap & ThreatEngine |
-| **Samruddhi V Achar** | **Team Member** | Executive PDF Report Builder, Data Feeds & RBAC Security Governance |
+| **Shreyas A** | **Team Leader** |
+| **Trinath Bhattacharya** | **Team Member** |
+| **Samruddhi V Achar** | **Team Member** | 
 
 ---
 
