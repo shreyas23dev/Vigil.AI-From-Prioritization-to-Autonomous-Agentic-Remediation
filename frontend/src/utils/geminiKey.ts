@@ -8,6 +8,11 @@ export const sanitizeApiKey = (rawKey: string): string => {
   return rawKey.trim().replace(/^["']|["']$/g, '').trim();
 };
 
+export const isValidGeminiApiKeyFormat = (key: string): boolean => {
+  const clean = sanitizeApiKey(key);
+  return clean.startsWith('AIzaSy') && clean.length >= 30;
+};
+
 export const getActiveGeminiApiKey = (
   customStateKey: string,
   defaultEnvKey: string

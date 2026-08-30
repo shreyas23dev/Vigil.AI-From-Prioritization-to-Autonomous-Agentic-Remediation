@@ -5,7 +5,8 @@ import { SkillResultCard } from './SkillResultCard';
 import {
   getActiveGeminiApiKey,
   resolveInitialGeminiApiKey,
-  syncGeminiApiKeyToStorage
+  syncGeminiApiKeyToStorage,
+  isValidGeminiApiKeyFormat
 } from '../utils/geminiKey';
 
 export type ProviderType = 'gemini' | 'ollama_local' | 'ollama_remote';
@@ -416,6 +417,12 @@ export const AIChatSidebar: React.FC = () => {
   const getProviderConfig = (): { url: string; headers: Record<string, string> } => {
     if (provider === 'gemini') {
       const activeKey = getActiveGeminiApiKey(geminiApiKey, DEFAULT_GEMINI_KEY);
+      if (!activeKey) {
+        throw new Error("Missing Gemini API key. Please generate a key at https://aistudio.google.com/app/apikey and enter it in Settings or frontend/.env.");
+      }
+      if (!isValidGeminiApiKeyFormat(activeKey)) {
+        throw new Error(`Invalid Gemini API Key format (${activeKey.slice(0, 5)}...). Google AI Studio keys MUST start with 'AIzaSy'. Please generate a key at https://aistudio.google.com/app/apikey and update frontend/.env or Settings.`);
+      }
       return {
         url: 'https://generativelanguage.googleapis.com/v1beta/openai/v1/chat/completions',
         headers: {
@@ -730,6 +737,11 @@ export const AIChatSidebar: React.FC = () => {
                 onChange={(e) => setGeminiApiKey(e.target.value)}
                 className="w-full bg-surface-container text-on-surface px-2.5 py-1.5 rounded border border-outline-variant/40 focus:border-primary focus:outline-none text-xs"
               />
+              {getActiveGeminiApiKey(geminiApiKey, DEFAULT_GEMINI_KEY) && !isValidGeminiApiKeyFormat(getActiveGeminiApiKey(geminiApiKey, DEFAULT_GEMINI_KEY)) && (
+                <p className="text-[10px] text-rose-400 mt-1 font-semibold">
+                  ⚠️ Key must start with 'AIzaSy' from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="underline text-primary-bright">Google AI Studio</a>.
+                </p>
+              )}
             </div>
 
             <div>
