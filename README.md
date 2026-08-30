@@ -80,7 +80,8 @@ Modern Security Operations Centers (SOCs) and vulnerability management teams are
 ### Core Innovations & Capabilities:
 
 * **Predictive Security Severity Score (PSSS)**: A composite scoring algorithm that unifies intrinsic severity (CVSS), real-world exploitability probability (EPSS), adversary tactic severity (MITRE ATT&CK criticality), and active APT threat actor multipliers into a single actionable 0–10 risk index.
-* **Skill Manager & Extensible AI Skills Engine**: Dynamic backend skill execution manager (`skill_manager.py`) supporting action authorization verification (SHA-256 checksums, permission allow-lists, security verification flags), live **Jira/Ticket Dispatcher**, and automated **Sigma/YARA Detection Rule Generation** with ROI Detection Value Scoring.
+* **Skill Manager & Extensible AI Skills Engine**: Dynamic backend skill execution manager (`skill_manager.py`) supporting action authorization verification (SHA-256 checksums, permission allow-lists, security verification flags), live **Jira/Ticket Dispatcher**, automated **Sigma/YARA Detection Rule Generation** with ROI Detection Value Scoring, and **SkillPatch** automated AST code patching.
+* **Autonomous SkillPatch Code Remediation Engine**: Pulls a verified code patching skill (`SkillPatchSkill`) to inspect vulnerable repository codebases (GitHub/GitLab API simulation), synthesize AST-safe patches and dependency upgrades, execute unit tests within an isolated sandbox environment, and automatically open Pull Requests populated with full PSSS/CVSS context for human review.
 * **Autonomous Sentinel AI Copilot**: A dual-provider AI agent (powered by **Google Gemini** or local **Ollama** models) equipped with automated function calling to inspect pipeline health, update vulnerability statuses, override priorities, recalibrate formula weights, dispatch Jira tickets, generate Sigma/YARA rules, and render interactive skill cards in the chat UI.
 * **Machine Learning Vector Imputer**: Built-in TF-IDF n-gram vectorization and Logistic Regression ML models that predict missing CVSS v3.1 vector metrics (`AV`, `AC`, `PR`, `UI`, `S`, `C`, `I`, `A`) from raw vulnerability text descriptions for zero-day or unclassified CVEs.
 * **Interactive ThreatEngine & Analytics**: Real-time MITRE ATT&CK tactic heatmaps with multi-metric interpolation, Top CVE priority rankings, CIA Triad impact breakdowns, and comprehensive APT actor dossiers with one-click IOC copying.
@@ -138,7 +139,7 @@ Vigil.AI is architected with a modern, high-performance, and modular technology 
 
 ### 🤖 3. Sentinel AI Autonomous Assistant
 - **Dual AI Provider Architecture**: Seamlessly switch between **Google Gemini** and **Ollama Local/Remote Models**.
-- **Autonomous Tool Execution**: Sentinel AI is equipped with function-calling capabilities to fetch vulnerabilities, update lifecycle statuses, modify severity/PSSS scores, recalibrate scoring weights, query pipeline health, and predict CVSS vectors from raw vulnerability descriptions.
+- **Autonomous Tool & Skill Execution**: Sentinel AI is equipped with function-calling capabilities to fetch vulnerabilities, update lifecycle statuses, modify severity/PSSS scores, recalibrate scoring weights, query pipeline health, predict CVSS vectors, dispatch Jira tickets, generate Sigma/YARA detection rules, and execute automated **SkillPatch** code remediation workflows.
 - **Rich Markdown Formatting**: Generates GitHub-flavored tables, code blocks, structured headers, and interactive prompt shortcut chips.
 
 ### 📑 4. Executive & Operational PDF Intel Reports
