@@ -13,6 +13,8 @@ build/
 .env.local
 .env.*.local
 *.env
+**/.env
+**/.env.*
 
 # Python bytecode & caches
 __pycache__/
