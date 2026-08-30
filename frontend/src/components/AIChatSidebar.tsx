@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Bot, Send, Settings, Trash2, Cpu, Wrench, CheckCircle2, AlertCircle, RefreshCw, X } from 'lucide-react';
 import { api } from '../api/client';
 import { SkillResultCard } from './SkillResultCard';
+import {
+  getActiveGeminiApiKey,
+  resolveInitialGeminiApiKey,
+  syncGeminiApiKeyToStorage
+} from '../utils/geminiKey';
 
 export type ProviderType = 'gemini' | 'ollama_local' | 'ollama_remote';
 
@@ -293,10 +298,9 @@ const FormattedMarkdown: React.FC<{ content: string }> = ({ content }) => {
 export const AIChatSidebar: React.FC = () => {
   // Provider & Model State
   const [provider, setProvider] = useState<ProviderType>('gemini');
-  const [geminiApiKey, setGeminiApiKey] = useState<string>(() => {
-    const saved = localStorage.getItem('gemini_api_key');
-    return (saved && saved.trim()) ? saved.trim() : DEFAULT_GEMINI_KEY;
-  });
+  const [geminiApiKey, setGeminiApiKey] = useState<string>(() =>
+    resolveInitialGeminiApiKey(DEFAULT_GEMINI_KEY)
+  );
   const [ngrokUrl, setNgrokUrl] = useState<string>(() => localStorage.getItem('ngrok_host_url') || 'https://cyber-sentinel.ngrok-free.app');
   const [availableModels, setAvailableModels] = useState<string[]>(FALLBACK_GEMINI_MODELS);
   const [selectedModel, setSelectedModel] = useState<string>('gemini-2.5-flash');
@@ -321,9 +325,7 @@ export const AIChatSidebar: React.FC = () => {
 
   // Persist settings across reloads
   useEffect(() => {
-    if (geminiApiKey) {
-      localStorage.setItem('gemini_api_key', geminiApiKey);
-    }
+    syncGeminiApiKeyToStorage(geminiApiKey, DEFAULT_GEMINI_KEY);
   }, [geminiApiKey]);
 
   useEffect(() => {
@@ -335,7 +337,7 @@ export const AIChatSidebar: React.FC = () => {
   // Fetch models dynamically depending on provider
   const fetchModelsForProvider = useCallback(async () => {
     setIsFetchingModels(true);
-    const activeKey = geminiApiKey.trim() || DEFAULT_GEMINI_KEY;
+    const activeKey = getActiveGeminiApiKey(geminiApiKey, DEFAULT_GEMINI_KEY);
 
     if (provider === 'gemini') {
       try {
@@ -413,7 +415,7 @@ export const AIChatSidebar: React.FC = () => {
   // Construct standard completion endpoint and headers
   const getProviderConfig = (): { url: string; headers: Record<string, string> } => {
     if (provider === 'gemini') {
-      const activeKey = geminiApiKey.trim() || DEFAULT_GEMINI_KEY;
+      const activeKey = getActiveGeminiApiKey(geminiApiKey, DEFAULT_GEMINI_KEY);
       return {
         url: 'https://generativelanguage.googleapis.com/v1beta/openai/v1/chat/completions',
         headers: {
