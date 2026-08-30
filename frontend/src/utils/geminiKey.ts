@@ -3,19 +3,24 @@
  * between environment variables (import.meta.env.VITE_GEMINI_API_KEY) and browser localStorage.
  */
 
+export const sanitizeApiKey = (rawKey: string): string => {
+  if (!rawKey) return '';
+  return rawKey.trim().replace(/^["']|["']$/g, '').trim();
+};
+
 export const getActiveGeminiApiKey = (
   customStateKey: string,
   defaultEnvKey: string
 ): string => {
-  const trimmedState = customStateKey.trim();
-  if (trimmedState) {
-    return trimmedState;
+  const cleanState = sanitizeApiKey(customStateKey);
+  if (cleanState) {
+    return cleanState;
   }
-  return (defaultEnvKey || '').trim();
+  return sanitizeApiKey(defaultEnvKey);
 };
 
 export const resolveInitialGeminiApiKey = (defaultEnvKey: string): string => {
-  const currentEnv = (defaultEnvKey || '').trim();
+  const currentEnv = sanitizeApiKey(defaultEnvKey);
   if (typeof localStorage === 'undefined') {
     return currentEnv;
   }
@@ -32,7 +37,7 @@ export const resolveInitialGeminiApiKey = (defaultEnvKey: string): string => {
 
   const saved = localStorage.getItem('gemini_api_key');
   if (saved && saved.trim()) {
-    return saved.trim();
+    return sanitizeApiKey(saved);
   }
 
   return currentEnv;
@@ -43,11 +48,11 @@ export const syncGeminiApiKeyToStorage = (
   defaultEnvKey: string
 ): void => {
   if (typeof localStorage === 'undefined') return;
-  const trimmed = key.trim();
-  const envTrimmed = (defaultEnvKey || '').trim();
+  const cleanKey = sanitizeApiKey(key);
+  const cleanEnv = sanitizeApiKey(defaultEnvKey);
 
-  if (trimmed && trimmed !== envTrimmed) {
-    localStorage.setItem('gemini_api_key', trimmed);
+  if (cleanKey && cleanKey !== cleanEnv) {
+    localStorage.setItem('gemini_api_key', cleanKey);
   } else {
     localStorage.removeItem('gemini_api_key');
   }

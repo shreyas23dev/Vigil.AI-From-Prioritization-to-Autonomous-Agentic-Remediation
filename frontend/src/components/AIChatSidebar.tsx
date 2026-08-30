@@ -516,7 +516,10 @@ export const AIChatSidebar: React.FC = () => {
 
         if (!res.ok) {
           const errText = await res.text();
-          throw new Error(`LLM endpoint returned status ${res.status}: ${errText.slice(0, 200)}`);
+          if (res.status === 401 || errText.includes('UNAUTHENTICATED') || errText.includes('invalid authentication') || errText.includes('ACCESS_TOKEN_TYPE_UNSUPPORTED')) {
+            throw new Error(`Google Gemini Authentication Failed (HTTP 401). Please verify your Gemini API key in Settings or frontend/.env. Google AI Studio keys start with 'AIzaSy' (https://aistudio.google.com/app/apikey).`);
+          }
+          throw new Error(`LLM endpoint returned status ${res.status}: ${errText.slice(0, 250)}`);
         }
 
         const data = await res.json();

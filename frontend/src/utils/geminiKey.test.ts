@@ -1,7 +1,8 @@
 import {
   getActiveGeminiApiKey,
   resolveInitialGeminiApiKey,
-  syncGeminiApiKeyToStorage
+  syncGeminiApiKeyToStorage,
+  sanitizeApiKey
 } from './geminiKey';
 
 class MockLocalStorage {
@@ -65,6 +66,12 @@ export function runGeminiKeyTests(): boolean {
     throw new Error('Test 4 failed: cleared key was not removed from localStorage');
   }
 
-  console.log('✅ Gemini Key Regression Tests: ALL 4 TESTS PASSED!');
+  // Test 5: Key sanitization strips quotes and surrounding whitespace
+  const sanitized = sanitizeApiKey(' "AIzaSy_QUOTED_KEY" ');
+  if (sanitized !== 'AIzaSy_QUOTED_KEY') {
+    throw new Error(`Test 5 failed: expected AIzaSy_QUOTED_KEY, got ${sanitized}`);
+  }
+
+  console.log('✅ Gemini Key Regression Tests: ALL 5 TESTS PASSED!');
   return true;
 }
