@@ -319,6 +319,39 @@ TOOLS_SCHEMA: List[Dict[str, Any]] = [
                 "required": ["cve_id"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "execute_skill_patch",
+            "description": "Inspect repository codebase, synthesize an AST-safe patch or dependency upgrade branch, run local sandbox unit tests, and open an automated Pull Request with PSSS/CVSS context.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "cve_id": {
+                        "type": "string",
+                        "description": "Vulnerability CVE ID (e.g. 'CVE-2024-3094')"
+                    },
+                    "repo_url": {
+                        "type": "string",
+                        "description": "Target repository Git URL (e.g. 'https://github.com/org/repo.git')"
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Affected dependency component or file (e.g. liblzma, express, requests)"
+                    },
+                    "psss_score": {
+                        "type": "number",
+                        "description": "Computed PSSS priority score"
+                    },
+                    "cvss_vector": {
+                        "type": "string",
+                        "description": "CVSS 3.1 vector string"
+                    }
+                },
+                "required": ["cve_id"]
+            }
+        }
     }
 ]
 
@@ -652,6 +685,47 @@ def execute_tool(tool_name: str, args: Dict[str, Any], context: Dict[str, Any]) 
             is_zero_day=is_zero_day
         )
         return {"success": True, "rules": rules}
+
+    elif tool_name == "execute_skill_patch":
+        cve_id = args.get("cve_id")
+        if not cve_id:
+            return {"error": "Missing required argument 'cve_id' for execute_skill_patch"}
+        repo_url = args.get("repo_url", "https://github.com/secops/production-service.git")
+        component = args.get("component", "liblzma")
+        psss_score = float(args.get("psss_score", 9.8))
+        cvss_vector = args.get("cvss_vector", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
+
+        skill_mgr = context.get("skill_manager")
+        patch_skill = skill_mgr.get_skill("skill_patch") if skill_mgr else None
+        if not patch_skill:
+            from skill_manager import skill_manager as sm
+            patch_skill = sm.get_skill("skill_patch")
+
+        patch_res = patch_skill.execute_patch_workflow(
+            cve_id=cve_id,
+            repo_url=repo_url,
+            component=component,
+            psss_score=psss_score,
+            cvss_vector=cvss_vector
+        )
+
+        # Audit log entry
+        if "audit_logs_store" in context:
+            import time, random
+            context["audit_logs_store"].insert(0, {
+                "id": f"AUD-{random.randint(10000, 99999)}",
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "severity": "WARN",
+                "category": "SKILL_PATCH_PR",
+                "user": "AI Assistant Agent",
+                "userRole": "AUTONOMOUS_AGENT",
+                "action": f"Executed SkillPatch and Opened PR {patch_res['pull_request']['pr_url']} for {cve_id}",
+                "target": patch_res['pull_request']['pr_title'],
+                "ipAddress": "127.0.0.1",
+                "details": patch_res
+            })
+
+        return {"success": True, "patch_workflow": patch_res}
 
     else:
         return {"error": f"Tool '{tool_name}' is not recognized."}

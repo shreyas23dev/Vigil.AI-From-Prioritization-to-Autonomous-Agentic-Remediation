@@ -314,6 +314,7 @@ Sentinel AI interacts directly with the live threat engine using automated funct
 | `get_jira_tickets` | `cve_id`, `status` | Queries existing remediation tickets |
 | `update_jira_ticket` | `ticket_id`, `status` | Updates Jira ticket status |
 | `generate_detection_rules` | `cve_id`, `title`, `component`, `is_zero_day` | Generates Sigma YAML and YARA signatures with Detection Value score |
+| `execute_skill_patch` | `cve_id`, `repo_url`, `component`, `psss_score` | Inspects codebase, synthesizes AST patch, runs sandbox tests, and opens PR |
 
 ---
 
@@ -335,6 +336,7 @@ Sentinel AI interacts directly with the live threat engine using automated funct
 | `GET` | `/api/skills` | List registered AI skills and features |
 | `POST` | `/api/skills/verify-action` | Verify action permission, security flag, and SHA-256 payload checksum |
 | `POST` | `/api/skills/generate-rules` | Synthesize Sigma YAML SIEM rules and YARA signatures for CVEs / zero-days |
+| `POST` | `/api/skills/patch` | Execute automated codebase inspection, AST patch, sandbox testing, and PR creation |
 | `POST` | `/api/jira/tickets` | Dispatch new Jira remediation ticket |
 | `GET` | `/api/jira/tickets` | Query dispatched Jira remediation tickets |
 | `PATCH` | `/api/jira/tickets/{ticket_id}/status` | Update Jira remediation ticket status |

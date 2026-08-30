@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Copy, Check, Ticket, ShieldCheck, ExternalLink, Code2, Sparkles, Terminal } from 'lucide-react';
+import { CheckCircle2, Copy, Check, Ticket, ShieldCheck, ExternalLink, Code2, Sparkles, Terminal, GitPullRequest, FlaskConical } from 'lucide-react';
 
 interface SkillResultCardProps {
   toolName: string;
@@ -238,6 +238,101 @@ export const SkillResultCard: React.FC<SkillResultCardProps> = ({ toolName, resu
             >
               <CheckCircle2 className="w-3.5 h-3.5" />
               {approved ? 'Rule Deployed' : 'Approve & Deploy'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. SkillPatch Automated AST Patch & PR Card
+  if (toolName === 'execute_skill_patch' || result.patch_workflow) {
+    const pw = result.patch_workflow || result;
+    const pr = pw.pull_request || {};
+    const patch = pw.patch || {};
+    const sandbox = pw.sandbox_tests || {};
+    const inspect = pw.inspection || {};
+
+    return (
+      <div className="my-3 rounded-lg border border-purple-500/40 bg-surface-container-high p-4 font-mono shadow-xl">
+        {/* Header */}
+        <div className="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+          <div className="flex items-center gap-2">
+            <GitPullRequest className="w-4 h-4 text-purple-400" />
+            <div>
+              <span className="text-xs font-bold text-on-surface">Skill Output // SkillPatch Agent</span>
+              <p className="text-[10px] text-on-surface-variant">{pw.cve_id} AST Code Patch</p>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+            PR #{pr.pr_number || 42} {pr.status || 'OPEN'}
+          </span>
+        </div>
+
+        {/* Inspection & Sandbox Summary */}
+        <div className="grid grid-cols-2 gap-2 my-3 text-[11px] bg-surface-dim p-2 rounded border border-outline-variant/20">
+          <div>
+            <span className="text-on-surface-variant">Component:</span>{' '}
+            <strong className="text-purple-300">{pw.component}</strong>
+          </div>
+          <div>
+            <span className="text-on-surface-variant">Target File:</span>{' '}
+            <strong className="text-cyan-300">{inspect.detected_file || 'requirements.txt'}</strong>
+          </div>
+          <div>
+            <span className="text-on-surface-variant">Version Bump:</span>{' '}
+            <span className="text-rose-400 line-through">{inspect.detected_version || '5.6.0'}</span>{' '}
+            <span className="text-emerald-400 font-bold">➔ {inspect.recommended_version || '5.6.1'}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FlaskConical className="w-3 h-3 text-emerald-400" />
+            <span className="text-emerald-400 font-bold">
+              Tests: {sandbox.tests_passed}/{sandbox.tests_run} Passed ({sandbox.coverage_percent}%)
+            </span>
+          </div>
+        </div>
+
+        {/* Patch Diff Box */}
+        {patch.patch_diff && (
+          <div className="my-2 rounded bg-slate-950 p-2.5 border border-outline-variant/30 text-[10px] text-emerald-300 font-mono overflow-x-auto max-h-36">
+            <div className="text-[9px] text-on-surface-variant pb-1 mb-1 border-b border-outline-variant/20">
+              AST Unified Diff ({patch.branch})
+            </div>
+            <pre className="whitespace-pre">{patch.patch_diff}</pre>
+          </div>
+        )}
+
+        {/* Footer Actions */}
+        <div className="mt-3 flex items-center justify-between pt-2 border-t border-outline-variant/20 text-xs">
+          <a
+            href={pr.pr_url || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[11px] text-purple-300 hover:underline font-bold"
+          >
+            <ExternalLink className="w-3 h-3" /> View Pull Request #{pr.pr_number || 42}
+          </a>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => copyToClipboard(patch.patch_diff || JSON.stringify(pw, null, 2), 'patch')}
+              className="px-2.5 py-1 rounded bg-surface-dim hover:bg-surface-container text-on-surface-variant hover:text-on-surface border border-outline-variant/30 text-xs flex items-center gap-1 font-semibold"
+            >
+              {copiedKey === 'patch' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedKey === 'patch' ? 'Copied' : 'Copy Patch'}</span>
+            </button>
+
+            <button
+              onClick={handleApprove}
+              disabled={approved}
+              className={`px-3 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all ${
+                approved
+                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                  : 'bg-purple-600 text-white hover:brightness-110 shadow-glow-purple'
+              }`}
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              {approved ? 'PR Merged' : 'Approve & Merge PR'}
             </button>
           </div>
         </div>

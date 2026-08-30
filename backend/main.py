@@ -437,9 +437,46 @@ def get_registered_skills():
             "detection_generator": {
                 "name": "Sigma/YARA Detection Rule Generator Skill",
                 "features": ["sigma_yaml_generation", "yara_signature_generation", "detection_value_scoring", "zero_day_prioritization"]
+            },
+            "skill_patch": {
+                "name": "SkillPatch Automated AST Patch & Pull Request Skill",
+                "features": ["codebase_inspection", "ast_safe_patch_synthesis", "sandbox_unit_testing", "automated_pull_request"]
             }
         }
     }
+
+class ExecutePatchRequest(BaseModel):
+    cveId: str
+    repoUrl: Optional[str] = "https://github.com/secops/production-service.git"
+    component: Optional[str] = "liblzma"
+    psssScore: Optional[float] = 9.8
+    cvssVector: Optional[str] = "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+
+@app.post("/api/skills/patch")
+def execute_skill_patch_endpoint(req: ExecutePatchRequest):
+    patch_skill = skill_manager.get_skill("skill_patch")
+    if not patch_skill:
+        raise HTTPException(status_code=500, detail="SkillPatch skill unavailable")
+    res = patch_skill.execute_patch_workflow(
+        cve_id=req.cveId,
+        repo_url=req.repoUrl or "https://github.com/secops/production-service.git",
+        component=req.component or "liblzma",
+        psss_score=req.psssScore or 9.8,
+        cvss_vector=req.cvssVector or "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    )
+    audit_logs_store.insert(0, {
+        "id": f"AUD-{random.randint(10000, 99999)}",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "severity": "WARN",
+        "category": "SKILL_PATCH_PR",
+        "user": "Alex Rivera",
+        "userRole": "TIER_3_LEAD",
+        "action": f"Executed SkillPatch and Opened PR {res['pull_request']['pr_url']} for {req.cveId}",
+        "target": res['pull_request']['pr_title'],
+        "ipAddress": "192.168.10.45",
+        "details": res
+    })
+    return res
 
 class GenerateRulesRequest(BaseModel):
     cveId: str

@@ -285,6 +285,26 @@ export const api = {
     return null;
   },
 
+  async executeSkillPatch(params: {
+    cveId: string;
+    repoUrl?: string;
+    component?: string;
+    psssScore?: number;
+    cvssVector?: string;
+  }) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/skills/patch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params)
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn("Execute SkillPatch API failed", e);
+    }
+    return null;
+  },
+
   async getAgentTools() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/agent/tools`);
