@@ -53,8 +53,8 @@
 
 ### **Team: Relentless**
 
-| Name | Role | Focus Areas |
-| :--- | :--- | :--- |
+| Name | Role |
+| :--- | :--- |
 | **Shreyas A** | **Team Leader** |
 | **Trinath Bhattacharya** | **Team Member** |
 | **Samruddhi V Achar** | **Team Member** | 
