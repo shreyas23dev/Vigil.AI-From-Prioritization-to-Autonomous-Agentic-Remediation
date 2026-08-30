@@ -5,8 +5,8 @@
 
 ---
 
-[![Team: Stratos](https://img.shields.io/badge/Team-Stratos-FF6B6B.svg?style=flat-square&logo=shield)](https://github.com/shreyas23dev/ThreatLens-AI)
-[![Track: AI & Machine Learning](https://img.shields.io/badge/Track-AI_%26_Machine_Learning-blueviolet.svg?style=flat-square&logo=openai)](https://github.com/shreyas23dev/ThreatLens-AI)
+[![Team: Stratos](https://img.shields.io/badge/Team-Stratos-FF6B6B.svg?style=flat-square&logo=shield)](https://github.com/shreyas23dev/Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation)
+[![Track: AI & Machine Learning](https://img.shields.io/badge/Track-AI_%26_Machine_Learning-blueviolet.svg?style=flat-square&logo=openai)](https://github.com/shreyas23dev/Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0+-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-19.x-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -75,7 +75,7 @@ Modern Security Operations Centers (SOCs) and vulnerability management teams are
 
 ## 💡 Solution Overview
 
-**ThreatLens.AI** is an adaptive, intelligence-driven vulnerability prioritization engine and AI & Machine Learning command center built to transform how enterprises triage security risk.
+**Vigil.AI** is an adaptive, intelligence-driven vulnerability prioritization engine and AI & Machine Learning command center built to transform how enterprises triage security risk.
 
 ### Core Innovations & Capabilities:
 
@@ -91,7 +91,7 @@ Modern Security Operations Centers (SOCs) and vulnerability management teams are
 
 ## 🛠️ Technology Stack
 
-ThreatLens.AI is architected with a modern, high-performance, and modular technology stack:
+Vigil.AI is architected with a modern, high-performance, and modular technology stack:
 
 ### **Frontend & UI Layer**
 - **Core Framework**: [React 19](https://react.dev/) (Modern functional components & hooks)
@@ -219,7 +219,7 @@ When vulnerabilities lack published CVSS v3.1 vector strings, the backend ML pip
 ## ⚙️ Setup Instructions
 
 ### Prerequisites
-Before running ThreatLens.AI, ensure you have the following installed on your machine:
+Before running Vigil.AI, ensure you have the following installed on your machine:
 - **Python**: `3.10` or higher
 - **Node.js**: `18.x` or higher (`npm` included)
 - **Git**: For version control
@@ -230,12 +230,12 @@ Before running ThreatLens.AI, ensure you have the following installed on your ma
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/shreyas23dev/ThreatLens-AI.git
-   cd ThreatLens-AI
+   git clone https://github.com/shreyas23dev/Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation.git
+   cd Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation
    ```
 
-2. **Configure Frontend Environment**:
-   Copy the example environment file and configure your Gemini API key (optional if using local Ollama):
+2. **Configure Frontend Environment & Security**:
+   Copy the example environment file and configure your Gemini API key (stored securely in `.env` which is ignored by `.gitignore`):
    ```bash
    cp frontend/.env.example frontend/.env
    ```
@@ -243,6 +243,7 @@ Before running ThreatLens.AI, ensure you have the following installed on your ma
    ```env
    VITE_GEMINI_API_KEY=your_gemini_api_key_here
    ```
+   > 🔒 **Security Note**: `frontend/.env` is excluded from Git tracking via `.gitignore` (`**/.env`) to ensure API keys and credentials are never exposed or committed.
 
 3. **Install Backend Dependencies**:
    ```bash
