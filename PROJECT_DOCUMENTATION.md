@@ -1,4 +1,4 @@
-# 🛡️ Project Documentation — ThreatLens.AI
+# 🛡️ Project Documentation — Vigil.AI
 ## **HackMatrix 2026 — Round 2 Submission**
 
 ---
@@ -9,33 +9,33 @@
 | :--- | :--- |
 | **Team Name** | **Stratos** |
 | **Team Leader Name** | **Shreyas A** |
-| **Team Leader Contact** | **Email:** `shreyas.a@threatlens.io` \| **GitHub:** [@shreyas23dev](https://github.com/shreyas23dev) |
+| **Team Leader Contact** | **Email:** `shreyas.a@vigil.ai` \| **GitHub:** [@shreyas23dev](https://github.com/shreyas23dev) |
 | **Team Members** | • **Shreyas A** (Team Leader — *Architecture, Scoring Engine & AI Integration*)<br>• **Trinath Bhattacharya** (*Backend API, ML CVSS Vector Imputer, Ingestion Telemetry*)<br>• **Vinod Gowda** (*Frontend Dashboard, MITRE Heatmap & ThreatEngine UI*)<br>• **Samruddhi V Achar** (*Executive PDF Report Builder, Data Feeds & IAM Governance*) |
 | **Event Name** | **HackMatrix 2026 - Round 2** |
 | **Selected Track** | **🤖 AI & Machine Learning** (*Intelligent solutions using AI, ML, automation, predictive analytics & autonomous agents*) |
-| **Project Title** | **ThreatLens.AI** (*Adaptive Vulnerability Prioritization Engine & Cyber Threat Intelligence Command Center*) |
+| **Project Title** | **Vigil.AI** (*Adaptive Vulnerability Prioritization Engine & Cyber Threat Intelligence Command Center*) |
 
 ---
 
 ## 🔗 2. Project Links
 
-* **GitHub Repository Link (Public)**: [https://github.com/shreyas23dev/ThreatLensAI-HackMatrix2026.git](https://github.com/shreyas23dev/ThreatLensAI-HackMatrix2026.git)
-* **Demo Video Link**: [ThreatLens.AI System Walkthrough & Demo](https://youtu.be/threatlens-ai-hackmatrix2026-demo)
+* **GitHub Repository Link (Public)**: [https://github.com/shreyas23dev/Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation.git](https://github.com/shreyas23dev/Vigil.AI-From-Prioritization-to-Autonomous-Agentic-Remediation.git)
+* **Demo Video Link**: [Vigil.AI System Walkthrough & Demo](https://youtu.be/vigil-ai-hackmatrix2026-demo)
 
 ---
 
 ## 🖥️ 3. Platform Preview
 
-![ThreatLens.AI Platform Preview](./docs/platform_preview.png)
-*Figure 1: ThreatLens.AI Command Center Dashboard showcasing real-time PSSS queue prioritization, fleet vulnerability inspection matrix, EPSS exploit likelihood telemetry, and Sentinel AI copilot.*
+![Vigil.AI Platform Preview](./docs/platform_preview.png)
+*Figure 1: Vigil.AI Command Center Dashboard showcasing real-time PSSS queue prioritization, fleet vulnerability inspection matrix, EPSS exploit likelihood telemetry, and Sentinel AI copilot.*
 
 ---
 
 ## 📋 4. Executive Summary
 
-**ThreatLens.AI** is an enterprise-grade cyber threat intelligence command center and adaptive vulnerability prioritization engine. Designed for Security Operations Centers (SOCs), incident response units, and CISOs, ThreatLens.AI transforms raw vulnerability feeds into prioritized, contextualized, and actionable remediation workflows.
+**Vigil.AI** is an enterprise-grade cyber threat intelligence command center and adaptive vulnerability prioritization engine. Designed for Security Operations Centers (SOCs), incident response units, and CISOs, Vigil.AI transforms raw vulnerability feeds into prioritized, contextualized, and actionable remediation workflows.
 
-By combining the **Predictive Security Severity Score (PSSS)** algorithm, an autonomous dual-engine **Sentinel AI Agent** with real-time tool calling, a machine-learning-based **CVSS Vector Imputer**, and interactive **MITRE ATT&CK Heatmaps**, ThreatLens.AI enables security teams to identify, triage, and remediate high-risk zero-days and active campaigns before adversaries can weaponize them.
+By combining the **Predictive Security Severity Score (PSSS)** algorithm, an autonomous dual-engine **Sentinel AI Agent** with real-time tool calling, a machine-learning-based **CVSS Vector Imputer**, and interactive **MITRE ATT&CK Heatmaps**, Vigil.AI enables security teams to identify, triage, and remediate high-risk zero-days and active campaigns before adversaries can weaponize them.
 
 ---
 
@@ -94,7 +94,7 @@ By combining the **Predictive Security Severity Score (PSSS)** algorithm, an aut
 ## 🛠️ 8. Technology Stack
 
 ```
-ThreatLens.AI Architecture
+Vigil.AI Architecture
 ├── Frontend (React 19 + TypeScript 5 + Vite 8 + Tailwind CSS 3.4)
 ├── Backend API (FastAPI + Python 3.10+ + Uvicorn + Pydantic v2)
 ├── Machine Learning (scikit-learn + NumPy + Pandas)
@@ -119,4 +119,4 @@ ThreatLens.AI Architecture
 
 ---
 
-*ThreatLens.AI — HackMatrix 2026 Round 2 Project Documentation*
+*Vigil.AI — HackMatrix 2026 Round 2 Project Documentation*
